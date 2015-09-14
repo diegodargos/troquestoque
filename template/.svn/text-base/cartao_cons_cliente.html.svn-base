@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Cart&atilde;o de Cr&eacute;dito </title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_cartao}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Clientes</h2>
+		<form class="quarter left" id="frmFiltro">
+			<fieldset>
+				<legend class="int">Filtro</legend>
+				<label class="int left clearfix">Banco:
+					<select class="two right" name="FK_Banco" id="FK_Banco">
+					</select>
+				</label>
+				<label class="int left clearfix">Conv&ecirc;nio:
+					<select class="two right" name="FK_Convenio" id="FK_Convenio">
+					</select>
+				</label>
+				<label class="int left clearfix">CPF: 
+					<input class="two right" type="text" name="CPF" id="CPF" data-format="custom" data-mask="999.999.999-99">
+				</label>
+				<label class="int left clearfix">Matricula: 
+					<input class="two right" type="text" name="Matricula" id="Matricula">
+				</label>
+				<label class="int left clearfix">
+					<input type="button" value="Selecionar" id="btSelecionar">
+				</label>
+			</fieldset>
+		</form>
+		<form class="part right">
+			<fieldset>
+				<legend class="int">Lista de Clientes</legend>
+				<table class="tabelas" id="tblConsulta">
+					<thead>
+						<tr>
+							<th>Atualizado</th>
+							<th>CPF</th>
+							<th>Nome</th>
+							<th>Matricula</th>
+							<th>Contrato</th>
+							<th>Valor Solicitado</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<div id="popDados" class="wrapper">
+		<div class="close">X</div>
+		<div class="popup">
+			<h3>CPF: <span id="CPFServidor">XXXXXXXX</span></h3>
+			<table class="tabelas" id="tblChild">
+				<thead>
+					<tr>
+						<th>Data/Hora</th>
+						<th>Opera&ccedil;&atilde;o</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<footer class="int">
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mCartao").addClass('active');
+$("#cartao_cons").addClass('active');
+doCargaSelect('FK_Banco', 'banco', null, true);
+//Trigger.
+$("#FK_Banco").change(function(){
+	doCargaSelect('FK_Convenio', 'convenio_cartao', $(this).val(), true);
+});
+
+fFormatInput();
+
+$("#btSelecionar").one('click',function(){
+	try{
+		makeTableFilter('cartao_cliente');
+	}catch(e){
+		console.log(e);
+	}
+});
+
+function fLog(PK_Movimento){
+	$('#tblChild tbody').html('');
+	$.post('/ajax/consulta.php?Table=cartao_log', {Condicao: PK_Movimento}, function(data){
+		$.each(data,function(index,item){
+			$("#CPFServidor").text(item.CPF);
+			dados = '<tr>'+
+			'<td>'+item.DtOperacao+'</td>' +
+			'<td>'+item.Mensagem+'</td></tr>';
+			$('#tblChild tbody').append(dados);
+		});
+	},"json").done(function(){
+		$('#popDados').addClass('open');
+		$('.close').bind('click', function() {
+			$(this).parent().removeClass('open');
+			$(this).unbind();
+		});
+	});
+}
+
+</script>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Cart&atilde;o de Cr&eacute;dito</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_cartao}
+	</header>
+	<section class="home clearfix">
+	<h2>Importa&ccedil;&atilde;o de Dados</h2>
+		<form class="third left" enctype="multipart/form-data" action="cartao_importar.php" method="post" id="frmFiltro">
+			<fieldset>
+				<legend class="int clearfix">Importar</legend>
+				<label class="int clearfix">Banco:
+					<select class="part right" name="FK_Banco" id="FK_Banco">
+					</select>
+				</label>
+				<label class="int clearfix">Convenio:
+					<select class="part right" name="FK_Convenio" id="FK_Convenio">
+					</select>
+				</label>
+				<div class="int clearfix">
+					<label class="quarter left">Tipo Valido: </label>
+					<label class="third left clearfix"><input value="csv" type="checkbox" name="tipo" checked="checked" disabled="disabled">CSV</label>
+					<label class="quarter left clearfix"><input value="xlsx" type="checkbox" name="tipo" checked="checked" disabled="disabled">XLSX</label>
+				</div>
+				<label class="clearfix">Arquivo:
+					<input class="part right" name="Upload" id="Upload" type="file">
+				</label>
+				<input class="quarter right" type="submit" value="Enviar">
+			</fieldset>
+		</form>
+		<form class="two right">
+			<fieldset>
+				<legend class="int">Importa&ccedil;&otilde;es Realizadas</legend>
+				<table class="tabelas" id="tblCadastro">
+					<thead>
+						<tr>
+							<th>Data/Hora</th>
+							<th>Convenio</th>
+							<th>Arquivo Importado</th>
+							<th>Check Sum</th>
+							<th>Usuario</th>
+							<th>Qt.Registros</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int">
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mCartao").addClass('active');
+$("#cartao_importar").addClass('active');
+
+doCargaSelect('FK_Banco', 'banco', null, true);
+$("#FK_Banco").change(function(){
+	doCargaSelect('FK_Convenio', 'cons_margem', $(this).val(),true);	
+});
+
+$("#FK_Convenio").change(function(){
+	makeTableFilter('importacao', 'tblCadastro');
+});
+fFormatInput();
+
+$("#frmFiltro").submit(function(e){
+    if($("#FK_Banco").val() == 0){
+    	swal({title: "Erro Importacao", text: "Selecionar o banco.", type: "error", closeOnConfirm: true});
+    	e.preventDefault();
+    }
+    if($("#FK_Convenio").val() == 0){
+    	swal({title: "Erro Importacao", text: "Selecionar o convenio.", type: "error", closeOnConfirm: true});
+    	e.preventDefault();
+    }
+	if($("#Upload").val().trim() == "" ){
+		swal({title: "Erro Importacao", text: "Selecionar arquivo a importar.", type: "error", closeOnConfirm: true});
+		e.preventDefault();
+	}else{
+		swal({title: "Importando", text: "O arquivo solicitado está sendo importado,\nfavor aguarde ...", type: "warning", closeOnConfirm: false});
+	}
+});
+
+</script>
+</html>

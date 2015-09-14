@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_recuperacao}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Dashboard</h2>
+		<form class="quarter left" id="frmCadastro">
+			<fieldset>
+				<legend class="int">Opções de Pesquisa</legend>
+				<label class="int left clearfix">Banco:
+					<select class="two right" name="FK_Banco" id="FK_Banco">
+					</select>
+				</label>
+				<label class="int left clearfix">Conv&ecirc;nio:
+					<select class="two right" name="FK_Convenio" id="FK_Convenio">
+					</select>
+				</label>
+			</fieldset>
+			<input class="right half" type="button" value="Gerar" onclick="fTabela()"/>
+		</form>
+		<form class="part right">
+			<fieldset>
+				<legend class="int">Detalhes</legend>
+				<table class="tabelas" style="font-size: small;">
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<th>&nbsp;</th>
+							<th colspan="2">Valores</th>
+							<th colspan="5">Percentuais</th>
+						</tr>
+						<tr>
+							<th>Conv&ecirc;nio </th>
+							<th>Contratos</th>
+							<th>Parcela</th>
+							<th>Inadimpl&ecirc;ncia</th>
+							<th>Rec. Parcela</th>
+							<th>Rec. Total</th>
+							<th>Consulta</th>
+							<th>Inativo</th>
+							<th>Inv&aacute;lido</th>
+						</tr>
+					</thead>
+					<tbody id="tblDados">
+						
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<div id="Loading" class="wrapper">
+		<img alt="" src="../img/loader.gif">
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript" src="js/highcharts.js"></script>
+<script type="text/javascript">
+Highcharts.setOptions({chart:{backgroundColor:"rgba(0, 0, 0, 0.0)"},legend:{enabled:!1},xAxis:{gridLineWidth:1,minorGridLineWidth:1,labels:{style:{color:"#333",fontFamily:"'Ubuntu', Tahoma, sans-serif",fontSize:"14px"},y:17,formatter:function(){return this.value}}},yAxis:{gridLineWidth:1,minorGridLineWidth:1,title:{style:{color:"#666",fontFamily:"'Ubuntu', Tahoma, sans-serif",fontSize:"16px"}}},plotOptions:{line:{color:"#3182b0",dataLabels:{enabled:!0,y:25,color:"#85a4c4",style:{fontFamily:"'Ubuntu', Tahoma, sans-serif",fontSize:"16px",fontWeight:"bold"},formatter:function(){return this.y}}},pie:{colors:["#036","#265282","#436e9c","#5d7fa3","#85a4c4","#a1b7cf","#3182b0"],shadow:!1,center:["50%","50%"],borderWidth:0,showInLegend:!0,dataLabels:{distance:-50,color:"#eee",style:{fontFamily:"'Ubuntu', Tahoma, sans-serif",fontSize:"12px"}}},column:{color:"#036",stack:"mes",borderWidth:0,dataLabels:{enabled:!0,y:0,color:"#036",style:{fontFamily:"'Ubuntu', Tahoma, sans-serif",fontSize:"14px",fontWeight:"bold"},formatter:function(){return this.y}}},bar:{colors:["#255298","#036","#bfd730","#00a88e","#f37021","#fcaf17","#56287b","#29a3cc","#cc6600"],stack:"mes",borderWidth:0,showInLegend:!1,dataLabels:{enabled:!1}}}});
+</script>
+<script type="text/javascript">
+$("#mRec").addClass('active');
+$("#rec_dashboard").addClass('active');
+
+doCargaSelect('FK_Banco', 'banco', null, true);
+//Trigger.
+$("#FK_Banco").change(function(){
+	doCargaSelect('FK_Convenio', 'convenio', $(this).val(), true);
+});
+
+fFormatInput();
+
+function fTabela(){
+	fLoading(true);
+	$("#tblDados").html('');
+	$.post('ajax/rec_charts.php', $("#frmCadastro").serialize(),function(data){
+		$.each(data,function(i,item){
+			var html = "<tr>";
+				html+= "<td>"+item.Nome+"</td>";
+				html+= "<td>"+item.Contratos+"</td>";
+				html+= "<td>"+parseFloat(item.ParcelaRecuperar).formatMoney(2)+"</td>";
+				html+= "<td>"+parseFloat(item.ValorRecuperar).formatMoney(2)+"</td>";
+				html+= "<td>"+((parseFloat(item.ParcelaAverbada)/parseFloat(item.ParcelaRecuperar))*100).formatMoney(2)+" %</td>";
+				html+= "<td>"+((parseFloat(item.ValorAverbado)/parseFloat(item.ValorRecuperar))*100).formatMoney(2)+" %</td>";
+				html+= "<td>"+((item.Consulta/item.Contratos)*100).formatMoney(2) +" %</td>";
+				html+= "<td>"+((item.Inativo/item.Contratos)*100).formatMoney(2) +" %</td>";
+				html+= "<td>"+((item.Invalidos/item.Contratos)*100).formatMoney(2) +" %</td>";
+			html+= "</tr>";
+			$("#tblDados").append(html);
+			//console.log(item);
+		});
+	},"json").done(function(){
+		fLoading(false);
+	}).fail(function(){
+		fLoading(false);
+	});
+}
+</script>
+</html>

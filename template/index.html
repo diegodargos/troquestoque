@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>troquestoque</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+	</header>
+	<section class="clearfix" id = "Topo">
+	{MenuLeft}
+	<div id="corpo">
+	{Pagina}
+	</div>
+	</section>
+	<div id="popDados" class="wrapper">
+		<div class="close">X</div>
+		<div class="popup">
+			<h3>CPF: <span id="CPFServidor">XXXXXXXX</span></h3>
+			<table class="tabelas" id="tblChild">
+				<thead>
+					<tr>
+						<th>Data/Hora</th>
+						<th>Opera&ccedil;&atilde;o</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div id="Loading" class="wrapper">
+		<img alt="" src="../img/loader.gif">
+	</div>
+	<footer class="int">
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mInicio").addClass('active');
+$("#averb_cons").addClass('active');
+doCargaSelect('FK_Banco', 'banco', null, true);
+//Trigger.
+$("#FK_Banco").change(function(){
+	doCargaSelect('FK_Convenio', 'convenio_averb', $(this).val(), true);
+});
+
+fFormatInput();
+
+function btSelecionar(){
+	fLoading(true);
+	makeTableFilter('averb_todos', undefined, function(){
+		fLoading(false);
+		$("#btSelecionar").one('click',function(){
+			btSelecionar();
+		});
+	});
+}
+
+$("#btSelecionar").one('click',function(){
+	btSelecionar();
+});
+
+function fLog(PK_Movimento){
+	$('#tblChild tbody').html('');
+	$.post('/ajax/consulta.php?Table=averb_log', {Condicao: PK_Movimento}, function(data){
+		$.each(data,function(index,item){
+			$("#CPFServidor").text(item.CPF);
+			dados = '<tr>'+
+			'<td>'+item.DtOperacao+'</td>' +
+			'<td>'+item.Mensagem+'</td></tr>';
+			$('#tblChild tbody').append(dados);
+		});
+	},"json").done(function(){
+		$('#popDados').addClass('open');
+		$('.close').bind('click', function() {
+			$(this).parent().removeClass('open');
+			$(this).unbind();
+		});
+	});
+}
+
+</script>
+</html>

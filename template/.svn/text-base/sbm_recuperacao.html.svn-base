@@ -1,0 +1,12 @@
+<!-- Submenu de Recuperacao -->
+<ul class="menu half sub">
+	<li id="rec_relatorio"><a href="load.php?Arg=rec_relatorio">Relat&oacute;rios</a></li>
+	<li id="rec_cons"><a href="load.php?Arg=rec_cons_movimento">Consulta</a>
+		<ul>
+			<li><a href="load.php?Arg=rec_cons_movimento">Movimentos</a></li>
+			<li><a href="load.php?Arg=rec_cons_cliente">Clientes</a></li>
+		</ul>
+	</li>
+	<li id="rec_importar"><a href="load.php?Arg=rec_importar">Importa&ccedil;&atilde;o</a></li>
+	<li id="rec_dashboard"><a href="load.php?Arg=rec_dashboard">Dashboard</a></li>
+</ul>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_cadastro}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Cadastros</h2>
+		<form class="third left" id="frmCadastro">
+			<fieldset>
+				<legend class="int">Novo Cadastro</legend>
+				<label class="int left clearfix">C&oacute;digo:
+					<input class="two right" type="text" readonly="readonly" name="PK_Script" id="PK_Script" data-format="money" data-decimal="0" >
+				</label>
+				<label class="int left clearfix">Tipo: 
+					<select class="two right" name="Tipo" id="Tipo" onchange="doName()">
+						<option value="">SELECIONE</option>
+						<option value="cons">Consulta</option>
+						<option value="rec">Recupera&ccedil;&atilde;o</option>
+						<option value="averb">Averba&ccedil;&atilde;o</option>
+						<option value="cartao">Cart&atilde;o de Cr&eacute;dito</option>
+					</select>
+				</label>
+				<label class="int left clearfix">Sistema:
+					<select class="two right" name="FK_Sistema" id="FK_Sistema" onchange="doName()"></select>
+				</label>
+				<label class="int left clearfix">Org&atilde;o:
+					<select class="two right" name="FK_Orgao" id="FK_Orgao" onchange="doName()"></select>
+				</label>
+				<label class="int left clearfix">PHP File:
+					<input class="two right" type="text" name="PHPFILE" id="PHPFILE" maxlength="16" readonly="readonly">
+				</label>
+				<label class="int left clearfix">Descri&ccedil;&atilde;o:
+					<textarea class="two right" name="Descricao" id="Descricao" rows="4"></textarea>
+				</label>
+				<input class="right" type="button" value="Salvar" id="btSalvar">
+			</fieldset>
+		</form>
+		<form class="two right">
+			<fieldset>
+				<legend class="int">Lista de Scripts</legend>
+				<table class="tabelas" id="tblCadastro">
+					<thead>
+						<tr>
+							<th>Ac&atilde;o</th>
+							<th>C&oacute;digo</th>
+							<th>Tipo</th>
+							<th>Sistema</th>
+							<th>Org&atilde;o</th>
+							<th>PHP File</th>
+							<th>Descri&ccedil;&atilde;o</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	
+	<footer class="int"></footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mCad").addClass('active');
+$("#cad_script").addClass('active');
+
+doCargaSelect('FK_Sistema','sistema', null, true);
+doCargaSelect('FK_Orgao','orgao', null, true);
+
+makeTable('script');
+fFormatInput();
+
+$("#btSalvar").one('click',function(){
+	fSave('script');
+});
+
+function doName(){
+	var texto = $("#Tipo").val() + '_' + $("#FK_Sistema").val() + '_' + $("#FK_Orgao").val()+'.php';
+	$("#PHPFILE").val(texto);
+}
+
+
+</script>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_recuperacao}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Movimentos</h2>
+		<form class="quarter left" id="frmFiltro">
+			<fieldset>
+				<legend class="int">Filtro</legend>
+				<label class="int left clearfix">Banco:
+					<select class="two right" name="searchFK_Banco" id="searchFK_Banco">
+					</select>
+				</label>
+				<label class="int left clearfix">Conv&ecirc;nio:
+					<select class="two right" name="searchFK_Convenio" id="searchFK_Convenio">
+					</select>
+				</label>
+				<label class="int left clearfix">CPF:
+					<input class="two right" name="searchCPF" id="searchCPF" data-format="custom" data-mask="999.999.999-99">
+				</label>
+				<label class="int left clearfix">Contrato:
+					<input class="two right" name="searchContrato" id="searchContrato">
+				</label>
+				<!-- 
+				<label class="int left clearfix">CPF:
+					<input class="part right" type="text" readonly="readonly" name="CPF" id="CPF" >
+				</label>
+				<label class="int left clearfix">Nome:
+					<input class="part right" type="text" name="Nome" id="Nome">
+				</label>
+				<label class="int left clearfix">Ano Nasc.:
+					<input class="part right" type="text" name="AnoNascimento" id="AnoNascimento" placeholder="1933">
+				</label>
+				 -->
+				<label class="int left clearfix">
+					<input type="button" value="Selecionar" id="btSelecionar">
+				</label>
+			</fieldset>
+		</form>
+		<form class="part right">
+			<fieldset>
+				<legend class="int">Lista de Movimentos</legend>
+				<table class="tabelas" id="tblConsulta">
+					<thead>
+						<tr>
+							<th>A&ccedil;&otilde;es</th>
+							<th>Atualizado</th>
+							<th>CPF</th>
+							<th>Contrato</th>
+							<th>Parcela</th>
+							<th>Valor Financiado</th>
+							<th>Valor Inadimplente</th>
+							<th>Prazo</th>
+							<th>Inadimplencia Restante</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<div id="popDados" class="wrapper">
+		<div class="close">X</div>
+		<div class="popup">
+			<form class="int left" id="frmCadastro">
+				<fieldset>
+					<legend class="int">Altera Movimento</legend>
+					<label class="half left clearfix">C&oacute;digo:
+						<input class="part right" type="text" readonly="readonly" name="PK_Movimento" id="PK_Movimento" >
+					</label>
+					<label class="half right clearfix">Importa&ccedil;&atilde;o:
+						<input class="part right" type="text" readonly="readonly" name="FK_ImportacaoData" id="FK_ImportacaoData" >
+					</label>
+					
+					<label class="half left clearfix">Banco:
+						<select disabled="disabled" class="part right" name="FK_Banco" id="FK_Banco">
+						</select>
+					</label>
+					<label class="half right clearfix">Conv&ecirc;nio:
+						<select disabled="disabled" class="part right" name="FK_Convenio" id="FK_Convenio">
+						</select>
+					</label>
+					
+					<label class="half left clearfix">CPF:
+						<input class="part right" type="text" name="CPF" id="CPF" data-format="custom" data-mask="999.999.999-99">
+					</label>
+					<label class="half right clearfix">Contrato:
+						<input class="part right" type="text" name="NumeroContrato" id="NumeroContrato" >
+					</label>
+					
+					<label class="half left clearfix">Matricula 1:
+						<input class="part right" type="text" name="Matricula1" id="Matricula1" >
+					</label>
+					<label class="half right clearfix">Identificador 1:
+						<input class="part right" type="text" name="Identificador1" id="Identificador1" >
+					</label>
+					
+					<label class="half left clearfix">Matricula 2:
+						<input class="part right" type="text" name="Matricula2" id="Matricula2" >
+					</label>
+					<label class="half right clearfix">Identificador 2:
+						<input class="part right" type="text" name="Identificador2" id="Identificador2" >
+					</label>
+					
+					<label class="half left clearfix">Parcela:
+						<input class="part right" type="text" name="Parcela" id="Parcela" data-format="money" data-decimal="2" >
+					</label>
+					<label class="half right clearfix">Prazo:
+						<input class="part right" type="text" name="Prazo" id="Prazo" data-format="money" data-decimal="0">
+					</label>
+					
+					<label class="half left clearfix">Valor Inadimplente:
+						<input class="part right" type="text" name="ValorInadimplente" id="ValorInadimplente" data-format="money" data-decimal="2" >
+					</label>
+					<label class="half right clearfix">Taxa Contrato:
+						<input class="part right" type="text" name="TaxaContrato" id="TaxaContrato" data-format="money" data-decimal="2">
+					</label>
+					<label class="half left clearfix">Valor Financiado:
+						<input class="part right" type="text" name="ValorFinanciado" id="ValorFinanciado" data-format="money" data-decimal="2">
+					</label>
+					<input class="right" type="button" value="Salvar" id="btSalvar">
+				</fieldset>
+			</form>
+		</div>
+	</div>
+	<div id="Loading" class="wrapper">
+		<img alt="" src="../img/loader.gif">
+	</div>
+	<footer class="int">
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mRec").addClass('active');
+$("#rec_cons").addClass('active');
+doCargaSelect('searchFK_Banco', 'banco', null, true);
+//Trigger
+$("#searchFK_Banco").change(function(){
+	console.log($(this).attr('name'));
+	doCargaSelect('searchFK_Convenio', 'convenio', $(this).val(), true);
+});
+
+doCargaSelect('FK_Banco', 'banco');
+doCargaSelect('FK_Convenio', 'convenio');
+
+fFormatInput();
+
+function btSelecionar(){
+	fLoading(true);
+	makeTableFilter('movimento', undefined, function(){
+		fLoading(false);
+		$("#btSelecionar").one('click',function(){
+			btSelecionar();
+		});
+	});
+}
+
+$("#btSelecionar").one('click',function(){
+	btSelecionar();
+});
+
+$("#btSalvar").one('click',function(){
+	fSave('movimento',"frmCadastro",function(){
+		fLoading(true);
+		makeTableFilter('movimento', undefined, function(){
+			fLoading(false);
+		});
+	});
+});
+
+function fEditMovimento(id){
+	$.post('../ajax/load.php', {Table: 'movimento', ID: id},function(data){
+		$("#FK_Convenio").attr('disable',false);
+		$("#FK_Banco").attr('disable',false);
+		fJson(data);
+	},"json").done(function(){
+		$('#popDados').addClass('open');
+		$('.close').bind('click', function() {
+			$(this).parent().removeClass('open');
+			$(this).unbind();
+		});
+		$("#FK_Convenio").attr('disable',true);
+		$("#FK_Banco").attr('disable',true);
+	});
+}
+</script>
+</html>

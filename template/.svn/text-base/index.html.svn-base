@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SISCONSIGNA">
+	</header>
+	<form class="login clearfix" id="form" name="form" action="logar.php" method="post">
+		<fieldset>
+			<legend class="int">Acesso a plataforma</legend>
+			<label class="part clearfix">Login: <input class="int" name="user" type="text" tabindex="0" autofocus="autofocus"></label>
+			<label class="part clearfix">Senha: <input class="int" name="passwd" type="password" ></label>
+			<label class="int clearfix"><input class="half right" type="Submit" value="Entrar"></label>
+		</fieldset>
+	</form>
+	<footer class="int">
+	</footer>
+</body>
+</html>

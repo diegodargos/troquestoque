@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_recuperacao}
+	</header>
+	<section class="home clearfix">
+	<h2>Importa&ccedil;&atilde;o de Dados</h2>
+		<form class="third left" enctype="multipart/form-data" action="rec_importar.php" method="post" id="frmFiltro">
+			<fieldset>
+				<legend class="int clearfix">Importar</legend>
+				<label class="int clearfix">Banco:
+					<select class="part right" name="FK_Banco" id="FK_Banco">
+					</select>
+				</label>
+				<label class="int clearfix">Convenio:
+					<select class="part right" name="FK_Convenio" id="FK_Convenio">
+					</select>
+				</label>
+				<div class="int clearfix">
+					<label class="quarter left">Tipo Valido: </label>
+					<label class="third left clearfix"><input value="csv" type="checkbox" name="tipo" checked="checked" disabled="disabled">CSV</label>
+					<label class="quarter left clearfix"><input value="xlsx" type="checkbox" name="tipo" checked="checked" disabled="disabled">XLSX</label>
+				</div>
+				<label class="int clearfix">Arquivo:
+					<input class="two right" type="text" readonly="readonly" name="File" id="File"> 
+					<span class="right"><img  src="../img/upload.png" id="Upload"></span>
+				</label>
+				<input class="quarter right" type="button" onclick="UploadFile()" value="Carregar">
+			</fieldset>
+		</form>
+		<form class="two right">
+			<fieldset>
+				<legend class="int">Importa&ccedil;&otilde;es Realizadas</legend>
+				<table class="tabelas" id="tblCadastro">
+					<thead>
+						<tr>
+							<th>Data/Hora</th>
+							<th>Convenio</th>
+							<th>Arquivo Importado</th>
+							<th>Check Sum</th>
+							<th>Usuario</th>
+							<th>Qt.Registros</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int">
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript" src="js/upclick-min.js"></script>
+<script type="text/javascript">
+$("#mRec").addClass('active');
+$("#rec_importar").addClass('active');
+doCargaSelect('FK_Banco', 'banco', null, true);
+$("#FK_Banco").change(function(){
+	doCargaSelect('FK_Convenio', 'convenio',$(this).val(),true);	
+});
+
+$("#FK_Convenio").change(function(){
+	makeTableFilter('rec_importacao', 'tblCadastro');
+});
+fFormatInput();
+
+function UploadFile(){
+	if($("#FK_Banco").val() == 0){
+    	swal({title: "Erro Importacao", text: "Selecionar o banco.", type: "warning", closeOnConfirm: true});
+    	return false;
+    }
+    if($("#FK_Convenio").val() == 0){
+    	swal({title: "Erro Importacao", text: "Selecionar o convenio.", type: "warning", closeOnConfirm: true});
+    	return false;
+    }
+	if($("#File").val().trim() == "" ){
+		swal({title: "Erro Importacao", text: "Selecionar arquivo a importar.", type: "warning", closeOnConfirm: true});
+		return false;
+	}
+	fLoading(true);
+	$.post('../ajax/rec_importar.php', $("#frmFiltro").serialize(),function(data){
+		console.log(data);
+		if(data.Error){
+			swal({title: "Erro Importacao", text: data.Mensagem, type: "error"});	
+		}else{
+			swal({title: "Importacao", text: "Arquivo importado com sucesso", type: "success"});
+		}
+		
+	}).done(function(){
+		fLoading(false);
+		makeTableFilter('rec_importacao', 'tblCadastro');
+	}).fail(function(){
+		fLoading(false);
+	},"json");
+};
+
+upclick({
+	element : document.getElementById("Upload"),
+   	action: '../ajax/rec_upload_file.php',
+   	oncomplete:
+    function(data){
+   		$("#File").val(data);
+   	}
+});
+
+</script>
+</html>

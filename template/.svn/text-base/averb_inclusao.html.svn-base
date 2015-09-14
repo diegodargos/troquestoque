@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_averbacao}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Incluir Averba&ccedil;&atilde;o</h2>
+		<form class="int left" id="frmCadastro">
+			<fieldset>
+				<legend class="int">Registro</legend>
+				<label class="int left clearfix">Banco:
+					<input class="part right" type="hidden" readonly="readonly" name="PK_MovimentoAbervacao" id="PK_MovimentoAbervacao" data-format="money" data-decimal="0" >
+					<select class="part right" name="FK_Banco" id="FK_Banco"></select>
+				</label>
+				<label class="int left clearfix">Conv&ecirc;nio:
+					<select class="part right" name="FK_Convenio" id="FK_Convenio" onchange="fFormConvenio()"></select>
+				</label>
+			</fieldset>
+			<fieldset id="formConvenio">
+				
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int"></footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript" src="js/averbacao.js"></script>
+<script type="text/javascript">
+$("#mAverb").addClass('active');
+$("#averb_inclusao").addClass('active');
+
+
+doCargaSelect('FK_Banco','banco',null, true);
+$('#FK_Banco').change(function(){
+	doCargaSelect('FK_Convenio', 'convenio_averb', $(this).val(),true);	
+});
+
+fFormatInput();
+function fFormConvenio(e){
+	$.post('ajax/load.php?Date=', {Table: 'OrgaoConvenio', 'ID': $("#FK_Convenio").val()}, function(data){
+		try{
+			if(data.FK_Orgao == "2"){
+				formulario = formPrefeituraRioJaneiro();
+			}else if(data.FK_Orgao == "8"){ //Pref. Belo Horizonte
+				formulario = formPrefeituraBeloHorizonte();
+			}else if(data.FK_Orgao == "10"){ //Aeronautica
+					formulario = formAeronautica();
+			}else if(data.FK_Orgao == "9"){ //Aeronautica
+					formulario = formGovParana();
+			}else{
+				formulario= '';
+			}	
+			$("#formConvenio").html(formulario);
+			$("#btSalvar").one('click',function(e){
+				executa(e);
+			});
+			fFormatInput();
+		}catch(e){
+			alert(e);
+		}
+			//fSave('averbacao');
+	},"json");
+}
+function executa(e){
+	
+	var erros = "";
+	$('input[type=text]').each(function(i,elemento){
+		if($(elemento).val().trim() == ""){
+			erros += "Campo: "+elemento.name+" deve ser preenchido.\n";
+		}
+	});
+	if(erros != ""){
+		swal({title: "Sysconsigna", text: erros , type: "warning"});
+	}else{
+		swal({title: "Averbação", text: "Os dados informados estao sendo analisados.\nfavor aguarde ...", type: "warning", showConfirmButton: false});
+		executaProcesso($("#FK_Convenio option:selected").attr("id"), $("#frmCadastro").serialize() , function (retorno){
+				swal({title: "Averbação", text: "Processo encerrado, consulte no menu movimentos", type: "success", showConfirmButton: true});
+				$("#FK_Convenio").val(0);
+				$("#formConvenio").html("");
+		});
+	}
+	$("#btSalvar").one('click',function(e){
+		executa(e);
+	});
+	
+}
+
+
+
+
+
+</script>
+</html>	

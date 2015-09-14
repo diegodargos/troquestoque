@@ -1,0 +1,6 @@
+<!-- Submenu de Recuperacao -->
+<ul class="menu half sub">
+	<li id="cons_margem"><a href="load.php?Arg=cons_margem">Individual </a></li>
+	<li id="cons_importar"><a href="load.php?Arg=cons_importar">Importa&ccedil;&atilde;o</a></li>
+	<li id="cons_hist"><a href="load.php?Arg=cons_hist">Hist&oacute;rico de consultas</a>
+</ul>

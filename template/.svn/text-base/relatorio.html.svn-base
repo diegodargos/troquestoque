@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SISCONSIGNA">
+		{MainMenu}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Relatórios</h2>
+		<form id="frmRelatorio" class="part left">
+			<fieldset>
+				<input type="hidden" name="tipo" id="tipo">
+				<legend class="int clearfix">Filtrar e gerar relatório</legend>
+				<label class="half left clearfix">Data Inicial:
+					<input class="two right" type="text" data-format="date" placeholder="DD/MM/AAAA" name="dtInicio">
+				</label>
+				<label class="half right clearfix">Data Final:
+					<input class="two right" type="text" data-format="date" placeholder="DD/MM/AAAA" name="dtFinal">
+				</label>
+				<label class="half left clearfix">Banco:
+					<select class="two right" name="FK_Banco" id="FK_Banco">
+						
+					</select>
+				</label>
+				<label class="half right clearfix">Convenio:
+					<select class="two right" id="FK_Convenio" name="FK_Convenio">
+						
+					</select>
+				</label>
+				<div class="int clearfix">
+					<label class="oct left clearfix">Status</label>
+					<div class="part right multi">
+						<label class="left"> <input id="LISTA_MARGEM" name="businessStatus" type="radio" value="Margem">C/Margem</label>
+						<label class="left"> <input id="MARGEM_RESERVADA" name="businessStatus" type="radio" value="Reservado">Reservado</label>
+						<label class="left"> <input id="AVERBADO" name="businessStatus" type="radio" value="Averbado">Averbado</label>
+						<label class="left"> <input id="SEM_CONTRATO" name="businessStatus" type="radio" value="Inativos">Inativos</label>
+						<label class="left"> <input id="ALL" name="businessStatus" type="radio" value="ALL" checked="checked">Todos</label>
+					</div>
+				</div>
+				<!-- 
+					<input class="oct right" type="button" value="CSV" id="csvExport">
+				 -->
+			</fieldset>
+		</form>
+		<form class="quarter right">
+			<fieldset>
+				<legend class="int">Relat&oacute;rios</legend>
+				<label class="int left">Movimentos: <input type="button" class="third right" id="csvMovimento" value="CSV"></label>
+				<label class="int left">Inconsistentes: <input type="button" class="third right" id="csvInconsistencia" value="CSV"></label>
+				<!--  
+				<label class="int left">Cpf Inativo: <input type="button" class="third right" id="csvInativo" value="CSV"></label>
+				<label class="int left">Cpf sem Matricula: <input type="button" class="third right" id="cvsSemMatricula" value="CSV"></label>
+				<label class="int left">Baixas por Cpf: <input type="button" class="third right" id="csvBaixaCpf" value="CSV"></label>
+				-->
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int">
+		<!-- 
+		<address><a href="http://www.gdy.com.br" target="_blank" >GDY Tecnologia Empresarial ©2015 • 11.3888-3280</a></address>
+		 -->
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+doCargaSelect('FK_Banco', 'banco');
+doCargaSelect('FK_Convenio', 'convenio');
+fFormatInput();
+
+$("#csvMovimento").one('click',function(){
+	fCSV('csvMovimento','movimento');
+});
+$("#csvInconsistencia").one('click',function(){
+	fCSV('csvInconsistencia','inconsistente');
+});
+$("#cvsSemMatricula").one('click',function(){
+	fCSV('cvsSemMatricula','sematricula');
+});
+$("#csvBaixaCpf").one('click',function(){
+	fCSV('csvBaixaCpf','baixacpf');
+});
+function fCSV(elemento,tipo){
+	$("#tipo").val(tipo);
+	$("#"+elemento).val('Gerando ...');
+	$.post('ajax/export.php', $("#frmRelatorio").serialize(), function(data){
+		window.open(data);
+	}).done(function(){
+		$("#"+elemento).val('CSV');
+		$("#"+elemento).one('click',function(){
+			fCSV(elemento,tipo);
+		});
+	}).fail(function(a,b,c){
+		console.log(a);
+		console.log(b);
+		console.log(c);
+	});
+}
+
+</script>
+</html>

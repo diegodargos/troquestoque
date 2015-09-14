@@ -1,0 +1,13 @@
+<!-- Submenu de Recuperacao -->
+<ul class="menu half sub">
+	<li id="averb_relatorio"><a href="load.php?Arg=averb_relatorio">Relat&oacute;rios</a></li>
+	<li id="averb_inclusao"><a href="load.php?Arg=averb_inclusao">Inclus&atilde;o</a></li>
+	<li id="averb_cons"><a href="load.php?Arg=averb_cons_todos">Movimentos</a>
+		<ul>
+			<li><a href="load.php?Arg=averb_cons_recorrencia">Consulta/Parcial</a></li>
+			<li><a href="load.php?Arg=averb_cons_concluidos">Averbados/Encerrados</a></li>
+			<li><a href="load.php?Arg=averb_cons_todos">Todos</a></li>
+		</ul>
+	</li>
+	<li id="averb_importar"><a href="load.php?Arg=averb_importar">Importa&ccedil;&atilde;o</a></li>
+</ul>

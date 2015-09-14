@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_cadastro}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Cadastros</h2>
+		<form class="third left" id="frmCadastro">
+			<fieldset>
+				<legend class="int">Novo Cadastro</legend>
+				<label class="int left clearfix">C&oacute;digo:
+					<input class="part right" type="text" readonly="readonly" name="PK_Orgao" id="PK_Orgao" data-format="money" data-decimal="0" >
+				</label>
+				<label class="int left clearfix">Nome:
+					<input class="part right" type="text" name="Nome" id="Nome">
+				</label>
+				<label class="int left clearfix">
+					<input type="button" value="Salvar" id="btSalvar">
+				</label>
+			</fieldset>
+		</form>
+		<form class="two right">
+			<fieldset>
+				<legend class="int">Lista de Org&atilde;os</legend>
+				<table class="tabelas" id="tblCadastro">
+					<thead>
+						<tr>
+							<th>Ac&atilde;o</th>
+							<th>C&oacute;digo</th>
+							<th>Nome</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int">
+		
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mCad").addClass('active');
+$("#cad_orgao").addClass('active');
+makeTable('orgao');
+fFormatInput();
+
+$("#btSalvar").one('click',function(){
+	fSave('orgao');
+});
+</script>
+</html>

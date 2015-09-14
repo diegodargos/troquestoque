@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_cons}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Consulta Margem</h2>
+		<form class="quarter left" id="frmFiltro">
+			<fieldset>
+				<legend class="int">Filtro</legend>
+				<label class="int left clearfix">Banco:
+					<select class="two right" name="FK_Banco" id="FK_Banco">
+					</select>
+				</label>
+				<label class="int left clearfix">Conv&ecirc;nio:
+					<select class="two right" name="FK_Convenio" id="FK_Convenio">
+					</select>
+				</label>
+				<label class="int left clearfix">CPF: 
+					<input class="two right" type="text" name="CPF" id="CPF" data-format="custom" data-mask="999.999.999-99">
+				</label>
+				<label class="int left clearfix">Matricula: 
+					<input class="two right" type="text" name="Matricula" id="Matricula">
+				</label>
+				<div id="vParcela">
+				</div>
+				<label class="int left clearfix">
+					<input type="button" value="Selecionar" id="btSelecionar">
+				</label>
+			</fieldset>
+		</form>
+		<form class="part right">
+			<fieldset>
+				<legend class="int">Dados da Consulta</legend>
+				<table class="tabelas" id="tblConsulta">
+					<thead>
+						<tr>
+							<th>Atualizado</th>
+							<th>CPF</th>
+							<th>Nome</th>
+							<th>Matricula</th>
+							<th>Margem</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
+				<legend class="int">Lista Ativa de cart&atilde;o de Cr&eacute;dito </legend>
+				<table class="tabelas" id="tblAtiva">
+					<thead>
+						<tr>
+							<th>Atualizado</th>
+							<th>Protocolo</th>
+							<th>Data Solicita&ccedil;&atilde;o</th>
+							<th>Data Autoriza&ccedil;&atilde;o</th>
+							<th>Complemento</th>
+							<th>Parcela Solicitada</th>
+							<th>Parcela Autorizada</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<div id="popDados" class="wrapper">
+		<div class="close">X</div>
+		<div class="popup">
+			<h3>CPF: <span id="CPFServidor">XXXXXXXX</span></h3>
+			<table class="tabelas" id="tblChild">
+				<thead>
+					<tr>
+						<th>Data/Hora</th>
+						<th>Opera&ccedil;&atilde;o</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div id="Loading" class="wrapper">
+		<img alt="" src="../img/loader.gif">
+	</div>
+	<footer class="int">
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript" src="js/consulta.js"></script>
+<script type="text/javascript">
+$("#mCons").addClass('active');
+$("#cons_margem").addClass('active');
+doCargaSelect('FK_Banco', 'banco', null, true);
+//Trigger.
+$("#FK_Banco").change(function(){
+	doCargaSelect('FK_Convenio', 'cons_margem', $(this).val(), true);
+});
+$("#FK_Convenio").change(function(){
+	if($('#FK_Convenio option:selected').val() == 16){
+		formulario = formAeronautica();
+		$("#vParcela").html(formulario);
+	}else if($('#FK_Convenio option:selected').val() == 18){
+		formulario = formGovParana();
+		$("#vParcela").html(formulario);
+	}else{
+		$("#vParcela").html("");
+	}
+});
+
+fFormatInput();
+$("#btSelecionar").one('click',function(e){
+	executa(e);
+});
+
+function executa(e){
+	var erros = "";
+	if($('#FK_Convenio option:selected').val() != 9){	
+		$('input[type=text]').each(function(i,elemento){
+			if($(elemento).val().trim() == ""){
+				erros += "Campo: "+elemento.id+" deve ser preenchido.\n";
+			}
+		});
+	}
+	if(erros != ""){
+		swal({title: "Sysconsigna", text: erros , type: "warning"});
+	}else{
+		try{
+			fLoading(true);
+			executaProcesso($("#FK_Convenio option:selected").attr("id"), $("#frmFiltro").serialize(), function(retorno){
+				if(retorno == false){
+					$('#tblConsulta tbody').html('<tr><td colspan="6"><strong>CPF/Matricula Nao localizado.</strong></td></tr>');
+					$('#tblAtiva tbody').html('<tr><td colspan="7"><strong>Lista ativa nao localizada.</strong></td></tr>');
+				}else{
+					$('#tblConsulta tbody').html(retorno);
+					listaAtiva('cons_margem',$("#frmFiltro").serialize(),function(a){
+						if(a == false){
+							$('#tblAtiva tbody').html('<tr><td colspan="7"><strong>Lista ativa nao localizada.</strong></td></tr>');
+						}else{
+							$('#tblAtiva tbody').html(a);
+						}
+					});
+				}
+				fLoading(false);
+			});
+			
+		}catch(e){
+			console.log(e);
+		}
+	}
+	$("#btSelecionar").one('click',function(e){
+		executa(e);
+	});
+}
+
+</script>
+</html>

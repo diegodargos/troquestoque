@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_recuperacao}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Clientes</h2>
+		<form class="quarter left" id="frmFiltro">
+			<fieldset>
+				<legend class="int">Filtro</legend>
+				<label class="int left clearfix">Banco:
+					<select class="two right" name="FK_Banco" id="FK_Banco">
+					</select>
+				</label>
+				<label class="int left clearfix">Conv&ecirc;nio:
+					<select class="two right" name="FK_Convenio" id="FK_Convenio">
+					</select>
+				</label>
+				<label class="int left clearfix">Institui&ccedil;&atilde;o:
+					<select class="two right" name="Instituicao" id="Instituicao">
+					</select>
+				</label>
+				<label class="int left clearfix">Vinculo:
+					<select class="two right" name="Vinculo" id="Vinculo">
+					</select>
+				</label>
+				<label class="int left clearfix">CPF: 
+					<input class="two right" type="text" name="CPF" id="CPF" data-format="custom" data-mask="999.999.999-99">
+				</label>
+				<label class="int left clearfix">Matricula: 
+					<input class="two right" type="text" name="Matricula" id="Matricula">
+				</label>
+				<label class="int left clearfix">Margem: 
+					<span class="two right">
+						<input class="third left" type="text" name="MargemMin" id="MargemMin" data-format="money" data-decimal="2"> at&eacute;
+						<input class="third rigth" type="text" name="MargemMax" id="MargemMax" data-format="money" data-decimal="2" >
+					</span>
+				</label>
+				<label class="int left clearfix">
+					<input type="button" value="Selecionar" id="btSelecionar">
+				</label>
+			</fieldset>
+		</form>
+		<form class="part right">
+			<fieldset>
+				<legend class="int">Lista de Clientes</legend>
+				<table class="tabelas" id="tblConsulta">
+					<thead>
+						<tr>
+							<th>Atualizado</th>
+							<th>CPF</th>
+							<th>Nome</th>
+							<th>Dt. Nasc</th>
+							<th>Institui&ccedil;&atilde;o</th>
+							<th>Vinculo</th>
+							<th>Matricula</th>
+							<th>Margem Disp.</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<div id="popDados" class="wrapper">
+		<div class="close">X</div>
+		<div class="popup">
+			<h3>Servidor: <span id="NomeServidor">XXXXXXXX</span></h3>
+			<h3>CPF: <span id="CPFServidor">XXXXXXXX</span></h3>
+			<table class="tabelas" id="tblChild">
+				<thead>
+					<tr>
+						<th>Data/Hora</th>
+						<th>Matricula</th>
+						<th>Margem Dispon&iacute;vel</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div id="Loading" class="wrapper">
+		<img alt="" src="../img/loader.gif">
+	</div>
+	<footer class="int">
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mRec").addClass('active');
+$("#rec_cons").addClass('active');
+doCargaSelect('FK_Banco', 'banco', null, true);
+//Trigger.
+$("#FK_Banco").change(function(){
+	doCargaSelect('FK_Convenio', 'convenio', $(this).val(), true);
+});
+$("#FK_Convenio").change(function(){
+	doCargaSelect('Vinculo', 'vinculo', $(this).val(), true);
+	doCargaSelect('Instituicao', 'instituicao', $(this).val(), true);	
+});
+
+fFormatInput();
+
+function btSelecionar(){
+	fLoading(true);
+	makeTableFilter('cliente', undefined, function(){
+		fLoading(false);
+		$("#btSelecionar").one('click',function(){
+			btSelecionar();
+		});
+	});
+}
+
+$("#btSelecionar").one('click',function(){
+	btSelecionar();
+});
+
+function fRecorrenciaCliente(cpf){
+	fLoading(true);
+	makeTableChild('cpf_recorrencia', cpf,function(){
+		fLoading(false);
+	});
+}
+
+function fRecorrenciaMatricula(matricula){
+	makeTableChild('matricula_recorrencia', matricula,function(){
+		fLoading(false);
+	});
+}
+</script>
+</html>

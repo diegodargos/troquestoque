@@ -1,0 +1,22 @@
+	<form class="oct left" id="form" name="menu" action="" method="post">
+		<fieldset>
+			<legend class="int">Menu</legend>
+			<input class="int"  type = "button" id = "Login" value="Anunciar" >
+			<a href="load.php?Arg=Chapas"><input class="int" type = "button" id="Chapas" value="Chapas"></a>
+			<a href="load.php?Arg=Ferragens"><input class="int" type = "button" id="Ferragens" value="Ferragens"></a>
+			<a href="load.php?Arg=Outros"><input class="int" type = "button" id="Outros" value="Outros"></a>
+		</fieldset>
+	</form>
+		<form class="oct left" id="formLogin" name="menu" action="logar.php" method="post">
+		</form>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$('#Login').one('click',function(e){
+	executaLogin();
+});
+</script>

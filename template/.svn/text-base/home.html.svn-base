@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		<ul class="menu half">
+			<!--CONSULTA.Start-->
+			<li><a href="load.php?Arg=cons_margem">Consulta Margem</a></li>
+			<!--CONSULTA.End-->
+			<!--RECUPERACA.Start-->
+			<li><a href="load.php?Arg=rec_relatorio">Recupera&ccedil;&atilde;o</a></li>
+			<!--RECUPERACA.End-->
+			<!--PORTABILID.Start-->
+			<li><a href="load.php?Arg=averb_relatorio">Averba&ccedil;&atilde;o</a></li>
+			<!--PORTABILID.End-->
+			<!--CARTAOCRED.Start-->
+			<li><a href="load.php?Arg=cartao_relatorio">Cart&atilde;o Cred.</a></li>
+			<!--CARTAOCRED.End-->
+			<!--CADASTRO.Start-->
+			<li><a href="load.php?Arg=cad_banco">Cadastros</a></li>
+			<!--CADASTRO.End-->
+			<li><a href="logout.php">Sair</a></li>
+		</ul>
+	</header>
+	<section class="cadastros clearfix">
+		
+	</section>
+	<footer class="int">
+		<!-- 
+		<address><a href="http://www.gdy.com.br" target="_blank" >GDY Tecnologia Empresarial ©2015 • 11.3888-3280</a></address>
+		 -->
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+doCargaSelect('FK_Banco', 'banco');
+doCargaSelect('FK_Convenio', 'convenio');
+fFormatInput();
+
+$("#csvMovimento").one('click',function(){
+	fCSV('csvMovimento','movimento');
+});
+$("#csvInconsistencia").one('click',function(){
+	fCSV('csvInconsistencia','inconsistente');
+});
+$("#cvsSemMatricula").one('click',function(){
+	fCSV('cvsSemMatricula','sematricula');
+});
+$("#csvBaixaCpf").one('click',function(){
+	fCSV('csvBaixaCpf','baixacpf');
+});
+function fCSV(elemento,tipo){
+	$("#tipo").val(tipo);
+	$("#"+elemento).val('Gerando ...');
+	$.post('ajax/export.php', $("#frmRelatorio").serialize(), function(data){
+		window.open(data);
+	}).done(function(){
+		$("#"+elemento).val('CSV');
+		$("#"+elemento).one('click',function(){
+			fCSV(elemento,tipo);
+		});
+	}).fail(function(a,b,c){
+		console.log(a);
+		console.log(b);
+		console.log(c);
+	});
+}
+
+</script>
+</html>

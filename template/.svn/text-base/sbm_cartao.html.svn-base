@@ -1,0 +1,14 @@
+<!-- Submenu de Recuperacao -->
+<ul class="menu half sub">
+	<li id="cartao_relatorio"><a href="load.php?Arg=cartao_relatorio">Relat&oacute;rios</a></li>
+	<li id="cartao_inclusao"><a href="load.php?Arg=cartao_inclusao">Inclus&atilde;o</a></li>
+	<li id="cartao_cons"><a href="load.php?Arg=cartao_cons_cliente">Hist&oacute;rico Averba&ccedil;&atilde;o </a>
+		<ul>
+			<li><a href="load.php?Arg=cartao_cons_cliente">Clientes</a></li>
+			<!-- 
+			<li><a href="load.php?Arg=cartao_cons_movimento">Hist&oacute;rico cartaoa&ccedil;&atilde;o</a></li>
+			 -->
+		</ul>
+	</li>
+	<li id="cartao_importar"><a href="load.php?Arg=cartao_importar">Importa&ccedil;&atilde;o</a></li>
+</ul>

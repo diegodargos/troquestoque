@@ -1,0 +1,9 @@
+<!-- Submenu de Cadastro -->
+<ul class="menu half sub">
+	<li id="cad_banco"><a href="load.php?Arg=cad_banco">Bancos</a></li>
+	<li id="cad_sistema"><a href="load.php?Arg=cad_sistema">Sistema</a></li>
+	<li id="cad_orgao"><a href="load.php?Arg=cad_orgao">Org&atilde;os</a></li>
+	<li id="cad_script"><a href="load.php?Arg=cad_script">Scripts</a></li>
+	<li id="cad_convenio"><a href="load.php?Arg=cad_convenio">Conv&ecirc;nios</a></li>
+	<li id="cad_usuario"><a href="load.php?Arg=cad_usuario">Usu&aacute;rios</a></li>
+</ul>

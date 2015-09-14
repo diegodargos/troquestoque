@@ -1,0 +1,18 @@
+<ul class="menu half">
+	<!--CONSULTA.Start-->
+	<li id="mCons" ><a href="load.php?Arg=cons_margem">Consulta Margem</a></li>
+	<!--CONSULTA.End-->
+	<!--RECUPERACA.Start-->
+	<li id="mRec"><a href="load.php?Arg=rec_relatorio">Recupera&ccedil;&atilde;o</a></li>
+	<!--RECUPERACA.End-->
+	<!--PORTABILID.Start-->
+	<li id="mAverb"><a href="load.php?Arg=averb_relatorio">Averba&ccedil;&atilde;o</a></li>
+	<!--PORTABILID.End-->
+	<!--CARTAOCRED.Start-->
+	<li id="mCartao"><a href="load.php?Arg=cartao_relatorio">Cart&atilde;o Cred.</a></li>
+	<!--CARTAOCRED.End-->
+	<!--CADASTRO.Start-->
+	<li id="mCad"><a href="load.php?Arg=cad_banco">Cadastros</a></li>
+	<!--CADASTRO.End-->
+	<li><a href="logout.php">Sair</a></li>
+</ul>

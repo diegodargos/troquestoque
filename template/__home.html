@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/gs_logo.png" alt="GDY">
+		<h1>GDY AVERBAÇÃO</h1>
+		<ul class="menu half">
+			<li class="active"><a href="relatorios.php">Relatórios</a></li>
+			<li><a href="home.php">Realizados</a></li>
+			<li><a href="fluxo.html">Fluxo</a></li>
+			<li><a href="cadastro.html">Cadastros</a></li>
+		</ul>
+	</header>
+	<section class="home clearfix">
+	<h2>Realizar Fluxo</h2>
+		<form class="third left">
+			<fieldset>
+				<legend class="int clearfix">Selecionar Ação</legend>
+				<label class="int clearfix">Instituição:
+					<select class="part right">
+						<option>Seleciona</option>
+						<option>HSBC</option>
+						<option>BB</option>
+						<option>ITAÚ</option>
+					</select>
+				</label>
+				<label class="int clearfix">Fluxo:
+					<select class="part right">
+						<option>Selecione</option>
+					</select>
+				</label>
+				<div class="int clearfix">
+					<label class="quarter left">Tipo: </label>
+					<label class="third left clearfix"><input value="Online" type="radio" name="tipo"> Relatório</label>
+					<label class="quarter left clearfix"><input value="Relatório" type="radio" name="tipo"> Online</label>
+				</div>
+				<label class="clearfix">Arquivo:
+					<input class="part right" type="file">
+				</label>
+				<div class="progress"><span>15%</span></div>
+				<input class="quarter right" type="button" value="Enviar">
+			</fieldset>
+		</form>
+		<form class="two right">
+			<fieldset>
+				<legend class="int">Status dos envios</legend>
+				<table class="tabelas">
+					<thead>
+						<tr>
+							<th>Data/Hora</th>
+							<th>Fluxo</th>
+							<th>Serviço</th>
+							<th>Processo</th>
+							<th>Status</th>
+							<th>CPF</th>
+							<th>Margem Disponível</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>28/01/2015 15:30</td>
+							<td>Governo MT</td>
+							<td>RECOVERY</td>
+							<td>FAILED</td>
+							<td>Enviado</td>
+							<td>45355185134</td>
+							<td>257,53</td>
+						</tr>
+						<tr>
+							<td>28/01/2015 15:30</td>
+							<td>Governo MT</td>
+							<td>RECOVERY</td>
+							<td>FAILED</td>
+							<td>Enviado</td>
+							<td>45355185134</td>
+							<td>257,53</td>
+						</tr>
+						<tr>
+							<td>28/01/2015 15:30</td>
+							<td>Governo MT</td>
+							<td>RECOVERY</td>
+							<td>FAILED</td>
+							<td>Enviado</td>
+							<td>45355185134</td>
+							<td>257,53</td>
+						</tr>
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int">
+		<address><a href="http://www.gdy.com.br" target="_blank" >GDY Tecnologia Empresarial ©2015 • 11.3888-3280</a></address>
+	</footer>
+</body>
+</html>

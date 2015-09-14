@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Portal Troquestoque</title>
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+</head>
+<body>
+	<header id="header">
+		<img src="img/logo.png" alt="TROQUESTOQUE">
+	<ul class="menu half">
+	<li ><a href="#">Inicio</a></li>
+	<li ><a href="#">Cadastre</a></li>
+	<li ><a href="#">Contato</a></li>
+</ul>
+</header>
+<div id = "menu">
+	<form class="oct left">
+	<fieldset>
+			<legend class="int">Menu</legend>
+			<input class="int"  type = "button" id = "Login" value="Anunciar" >
+			<input class="int" type = "button" id="Chapas" value="Chapas"></a>
+			<input class="int" type = "button" id="Ferragens" value="Ferragens"></a>
+		</fieldset>
+	</form>
+	</div>
+	<div id="conteudo">
+		
+	</div>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+
+$('#conteudo').load('template/Produtos.html');
+$('#Login').one('click',function(e){
+	$('#conteudo').load('template/Anunciar.html');
+});
+$('#Chapas').one('click',function(e){
+	$('#conteudo').load('template/Chapas.html');
+});
+$('#Outros').one('click',function(e){
+	$('#conteudo').load('template/Outros.html');
+});
+
+</script>
+</html>
+
+

@@ -1,0 +1,458 @@
+//Fun��o Para Carga de Dados;
+function fechaForm(){
+	$('#formLogin').html('');
+	$('#Login').one('click',function(e){
+		executaLogin();
+	});
+}
+function executaLogin(){
+	var log = 'Login: <input class="int" id = "user" name="user" type="text" tabindex="0" autofocus="autofocus">'+
+		'Senha: <input class="int" id = "passwd" name="passwd" type="password" >'+
+		'<input class="half right" type="submit" id="Entrar" value="Entrar">';
+		$('#formLogin').html(log);
+		$('#Login').one('click',function(e){
+		fechaForm();
+		});
+}
+
+
+
+
+
+
+
+function doCargaSelect(elemento, tbl, filter, emptyFirst){
+	if(emptyFirst != true) emptyFirst = false;
+	$.post('ajax/select.php',{'Table' : tbl, 'Filter': filter}, function(data){
+		$("#"+elemento).html('');
+		if(emptyFirst){
+			$("#"+elemento).append("<option value=''>Selecione</option>");
+		}
+		$.each(data,function(index,item){
+			$("#"+elemento).append("<option id='"+item.Processo+"' value='"+item.Value+"'>"+item.Text+"</option>");
+		});
+	},"json");
+}
+
+function makeTable(table,callback){
+	console.log(table);
+	var dados;
+	$('#tblCadastro tbody').html('');
+	$.post('ajax/table.php',{'Table' : table}, function(data){
+		$.each(data,function(index,item){
+			if(table == "convenio"){
+				dados = '<tr id="reg_'+item.PK_Convenio+'">'+
+				'<td>'+
+					'<img src="img/delete.png" onclick="fDelete(\'convenio\',\'2\',\''+item.PK_Convenio+'\')"/>'+
+					'<img src="img/edit.png"  onclick="fEdit(\'convenio\',\''+item.PK_Convenio+'\')"/>'+
+					'<img src="img/user.png" title="Logins" onclick="fUser(\''+item.PK_Convenio+'\')"/>'+
+					'<img src="img/config.png" title="Config" onclick="fParam(\''+item.PK_Convenio+'\')"/>'+
+				'</td>' +
+				'<td>'+item.PK_Convenio+'</td>' +
+				'<td>'+item.TipoProcesso+'</td>' +
+				'<td>'+item.Banco+'</td>' +
+				'<td>'+item.Nome+'</td>' +
+				'<td>'+item.ValorMinimo+'</td>' +
+				'<td>'+item.ValorMaximo+'</td>' +
+				'<td>'+item.PrazoMaximo+'</td></tr>';
+			}else if(table == "usuario"){
+				dados = '<tr id="reg_'+item.PK_User+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'usuario\',\'2\',\''+item.PK_User+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEdit(\'usuario\',\''+item.PK_User+'\')"/></td>' +
+				'<td>'+item.PK_User+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td>'+item.Nome+'</td>' +
+				'<td>'+item.Login+'</td>' +
+				'<td>'+item.Email+'</td>' +
+				'<td>'+item.Root+'</td>' +
+				'<td>'+item.Admin+'</td></tr>';
+			}else if(table == "banco"){
+				dados = '<tr id="reg_'+item.PK_Banco+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'banco\',\'2\',\''+item.PK_Banco+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEdit(\'banco\',\''+item.PK_Banco+'\')"/></td>' +
+				'<td>'+item.PK_Banco+'</td>' +
+				'<td>'+item.Nome+'</td></tr>';
+			}else if(table == "orgao"){
+				dados = '<tr id="reg_'+item.PK_Orgao+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'orgao\',\'2\',\''+item.PK_Orgao+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEdit(\'orgao\',\''+item.PK_Orgao+'\')"/></td>' +
+				'<td>'+item.PK_Orgao+'</td>' +
+				'<td>'+item.Nome+'</td></tr>';
+			}else if(table == "sistema"){
+				dados = '<tr id="reg_'+item.PK_Sistema+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'sistema\',\'2\',\''+item.PK_Sistema+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEdit(\'sistema\',\''+item.PK_Sistema+'\')"/></td>' +
+				'<td>'+item.PK_Sistema+'</td>' +
+				'<td>'+item.Nome+'</td></tr>';
+			}else if(table == "rec_importacao"){
+				console.log('aqui no rec importcao');
+				dados = '<tr id="reg_'+item.PK_Importacao+'">'+
+				'<td>'+item.DataImportacao+'</td>' +
+				'<td>'+item.Convenio+'</td>' +
+				'<td><a href=\'csv/'+item.Arquivo+'\'>'+item.NomeArquivo+'</td>' +
+				'<td>'+item.CheckSum+'</td>' +
+				'<td>'+item.Usuario+'</td>' +
+				'<td>'+item.Registros+'</td></tr>';
+			}else if(table == "script"){
+				dados = '<tr id="reg_'+item.PK_Script+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'script\',\'5\',\''+item.PK_Script+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEdit(\'script\',\''+item.PK_Script+'\')"/></td>' +
+				'<td>'+item.PK_Script+'</td>' +
+				'<td>'+item.Tipo+'</td>' +
+				'<td>'+item.Sistema+'</td>' +
+				'<td>'+item.Orgao+'</td>' +
+				'<td>'+item.PHPFILE+'</td>' +
+				'<td>'+item.Descricao+'</td></tr>';
+			}
+			$('#tblCadastro tbody').append(dados);
+		});
+	},"json").done(function(){
+		if(typeof callback === 'function') callback(true);
+	}).fail(function(){
+		if(typeof callback === 'function') callback(false);
+	});
+}
+
+function executaProcesso(processo, formulario, callback){
+	$.post('processo/'+processo, formulario, function(data){
+		var tabela = "";
+		if(data.length == 0){
+			//Sem Reposta.
+			tabela = false;
+		}else if(data == "Usuario ou senha invalidos"){
+			tabela = swal({title: "Sysconsigna", text: "Usuario ou senha invalidos\n" , type: "warning"});
+		}else{
+			$.each(data,function(index,item){
+				dados = '<tr>'+
+				'<td>'+item.DtAtualiza+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td>'+item.Nome+'</td>' +
+				'<td>'+item.Matricula+'</td>' +
+				'<td>'+item.Margem+'</td>';
+				tabela += dados;
+			});
+		}
+		if(typeof callback === 'function') callback(tabela);
+	},"json").fail(function(){
+		if(typeof callback === 'function') callback(false);
+	});
+}
+function listaAtiva(table , formulario , callback){
+	$.post('ajax/consulta.php?Table='+table, formulario, function(data){
+		var dados ="";
+		if(data.length ==0){
+			var dados = false;
+		}else{
+		$.each(data,function(index,item){
+					dados = '<tr>'+
+						'<td>'+item.DateTimeUpdate+'</td>' +
+						'<td>'+item.Protocolo+'</td>' +
+						'<td>'+item.DtSolicitacao+'</td>' +
+						'<td>'+item.DtAutorizacao+'</td>' +
+						'<td>'+item.Complemento+'</td>' +
+						'<td>'+item.ParcelaSolicitada+'</td>' +
+						'<td>'+item.ParcelaAutorizada+'</td></tr>';
+			});
+		}
+		if(typeof callback === 'function') callback(dados);
+	},"json").fail(function(){
+		if(typeof callback === 'function') callback(false);
+	});
+	
+}
+
+function makeTableFilter(table, idElemento,callback){
+	var dados;
+	if(idElemento == undefined){
+		$('#tblConsulta tbody').html('');
+	}else{
+		$('#'+idElemento+' tbody').html('');
+	}
+	$.post('ajax/consulta.php?Table='+table, $("#frmFiltro").serialize(), function(data){
+		$.each(data,function(index,item){
+			if(table == "cliente"){
+				dados = '<tr>'+
+				'<td>'+item.DtAtualiza+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td><a href=\'#\' onclick="fRecorrenciaCliente(\''+item.CPF.trim()+'\')">'+item.Nome+'</a></td>' +
+				'<td>'+item.DataNascimento+'</td>' +
+				'<td>'+item.Instituicao+'</td>' +
+				'<td>'+item.Vinculo+'</td>' +
+				'<td>'+item.NumeroMatricula+'</a></td>' +
+				'<td>'+item.FormatMargemDisponivel+'</td></tr>';
+			}else if(table == "averb_todos" || table == "averb_concluidos"){
+				dados = '<tr>'+
+				'<td><img style="cursor: pointer" src="img/detalhe.png" title="Historico" onclick="fLog(\''+item.PK_Movimento+'\')"/></td>' +
+				'<td>'+item.DtAtualizado+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td>'+item.Nome+'</a></td>' +
+				'<td>'+item.NumeroMatricula+'</td>' +
+				'<td>'+item.NumeroContrato+'</td>' +
+				'<td>'+item.ValorParcela+'</td>' +
+				'<td>'+item.Parcelas+'</td>' +
+				'<td>'+item.ParcelaRealizada+'</td>' +
+				'<td>'+item.DataFinal+'</td>' +
+				'<td>'+item.Status+'</td></tr>';
+			}else if(table == "averb_recorrencia"){
+				//Cria Icones para tratamento.
+				dados = '<tr id="reg_'+item.PK_Movimento+'">'+
+				'<td><img src="img/cancel.png" title="Cancelar Recorrencia" onclick="fCancel(\'averb_movimento\',\'3\',\''+item.PK_Movimento+'\')"/>'+
+				'<img src="img/edit.png" title="Alterar Movimento" onclick="fEditMovimento(\''+item.PK_Movimento+'\')"/>' +
+				'<img style="cursor: pointer" src="img/detalhe.png" title="Historico" onclick="fLog(\''+item.PK_Movimento+'\')"/></td>' +
+				'<td>'+item.DtAtualizado+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td>'+item.Nome+'</a></td>' +
+				'<td>'+item.NumeroMatricula+'</td>' +
+				'<td>'+item.NumeroContrato+'</td>' +
+				'<td>'+item.ValorParcela+'</td>' +
+				'<td>'+item.Parcelas+'</td>' +
+				'<td>'+item.ParcelaRealizada+'</td>' +
+				'<td>'+item.DataFinal+'</td>' +
+				'<td>'+item.Status+'</td></tr>';
+			}else if(table == "cartao_cliente"){
+				dados = '<tr>'+
+				'<td>'+item.DtAtualizado+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td>'+item.Nome+'</a></td>' +
+				'<td>'+item.NumeroMatricula+'</td>' +
+				'<td>'+item.NumeroContrato+'</td>' +
+				'<td>'+item.ValorSolicitado+'</td>' +
+				'<td>'+item.Status+'</td></tr>';
+			}else if(table == "cons_hist"){
+				dados = '<tr>'+
+				'<td>'+item.DtAtualizado+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td>'+item.Nome+'</a></td>' +
+				'<td>'+item.Matricula+'</td>';
+				if(item.FK_Orgao == 10){
+					dados +=  '<td>'+item.Mensagem+'</td>'
+				}else{
+					dados += '<td>'+item.MargemDisponivel+'</td>'
+				}
+			}else if(table == "movimento"){
+				dados = '<tr id="reg_'+item.PK_Movimento+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'movimento\',\'3\',\''+item.PK_Movimento+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEditMovimento(\''+item.PK_Movimento+'\')"/></td>' +
+				'<td>'+item.Atualizacao+'</td>' +
+				'<td>'+item.CPF+'</td>' +
+				'<td>'+item.NumeroContrato+'</td>' +
+				'<td>'+item.ValorParcela+'</td>' +
+				'<td>'+item.ValorFinanciado+'</td>' +
+				'<td>'+item.ValorInadimplente+'</td>' +
+				'<td>'+item.Prazo+'</td>' +
+				'<td>'+item.TotalAtual+'</td></tr>';
+			}else if(table == "usuario_convenio"){
+				dados = '<tr id="reg_'+item.PK_Convenio_Usuario+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'usuario_convenio\',\'3\',\''+item.PK_Convenio_Usuario+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEdit(\'usurio_convenio\',\''+item.PK_Convenio_Usuario+'\')"/></td>' +
+				'<td>'+item.Usuario+'</td>' +
+				'<td>'+item.Senha+'</td>' +
+				'<td>'+item.Expira+'</td>' +
+				'<td>'+item.Validade+'</td>' +
+				'<td>'+item.Ativo+'</td></tr>';
+			}else if(table == "parametro_convenio"){
+				dados = '<tr id="reg_'+item.PK_Convenio_Parametro+'">'+
+				'<td><img src="img/delete.png" onclick="fDelete(\'parametro_convenio\',\'1\',\''+item.PK_Convenio_Parametro+'\')"/>'+
+				'<img src="img/edit.png" onclick="fEdit(\'parametro_convenio\',\''+item.PK_Convenio_Parametro+'\')"/></td>' +
+				'<td>'+item.Varname+'</td>' +
+				'<td>'+item.Attribute+'</td>' +
+				'<td>'+item.Type+'</td></tr>';
+			}else if(table == "rec_importacao"){
+				dados = '<tr id="reg_'+item.PK_Importacao+'">'+
+				'<td>'+item.DataImportacao+'</td>' +
+				'<td>'+item.Convenio+'</td>' +
+				'<td><a href=\'csv/'+item.Arquivo+'\'>'+item.NomeArquivo+'</td>' +
+				'<td>'+item.CheckSum+'</td>' +
+				'<td>'+item.Usuario+'</td>' +
+				'<td>'+item.Registros+'</td></tr>';
+			}else if(table == "averb_importacao"){
+				dados = '<tr id="reg_'+item.PK_Importacao+'">'+
+				'<td>'+item.DataImportacao+'</td>' +
+				'<td>'+item.Convenio+'</td>' +
+				'<td><a href=\'csv/'+item.Arquivo+'\'>'+item.NomeArquivo+'</td>' +
+				'<td>'+item.CheckSum+'</td>' +
+				'<td>'+item.Usuario+'</td>' +
+				'<td>'+item.Registros+'</td></tr>';
+			}else if(table == "cons_importacao"){
+				dados = '<tr id="reg_'+item.PK_Importacao+'">'+
+				'<td>'+item.DataImportacao+'</td>' +
+				'<td>'+item.Convenio+'</td>' +
+				'<td><a href=\'csv/'+item.Arquivo+'\'>'+item.NomeArquivo+'</td>' +
+				'<td>'+item.CheckSum+'</td>' +
+				'<td>'+item.Usuario+'</td>' +
+				'<td>'+item.Registros+'</td>';
+				if(item.Status){
+					dados += '<td><a href=\'../csv/consulta_margem_'+item.PK_Importacao+'.csv\'>Pronto</td>';
+				}else{
+					dados += '<td>Consultando...</td>';
+				}
+			}
+			if(idElemento == undefined){
+				$('#tblConsulta tbody').append(dados);
+			}else{
+				$('#'+idElemento+' tbody').append(dados);
+			}
+		});
+	},"json").done(function(){
+		/*
+		$("#btSelecionar").one('click',function(){
+			fLoading(true);
+			makeTableFilter(table);
+			fLoading(false);
+		});
+		*/
+		if(typeof callback === 'function') callback(true);
+	}).fail(function(jqXHR, textStatus, errorThrown){
+		console.log(jqXHR);
+		console.log(textStatus);
+		console.log(errorThrown);
+		/*
+		$("#btSelecionar").one('click',function(){
+			fLoading(true);
+			makeTableFilter(table);
+			fLoading(false);
+		});
+		*/
+		if(typeof callback === 'function') callback(false);
+	});
+}
+
+function makeTableChild(table, filtro, callback){
+	var dados;
+	var Cliente = "";
+	var CPF = "";
+	$('#tblChild tbody').html('');
+	$.post('ajax/consulta.php?Table='+table, {Condicao: filtro}, function(data){
+		$.each(data,function(index,item){
+			if(table == "cpf_recorrencia" || table == "matricula_recorrencia"){
+				dados = '<tr>'+
+				'<td>'+item.DtProcesso+'</td>' +
+				'<td>'+item.NumeroMatricula+'</td>' +
+				'<td>'+item.Margem+'</td></tr>';
+				Cliente = item.Cliente;
+				CPF = item.CPF;
+			}
+			$('#tblChild tbody').append(dados);
+		});
+	},"json").done(function(){
+		$('#NomeServidor').html(Cliente);
+		$('#CPFServidor').html(CPF);
+		$('#popDados').addClass('open');
+		$('.close').bind('click', function() {
+			$(this).parent().removeClass('open');
+			$(this).unbind();
+		});
+		if(typeof callback === 'function') callback(true);
+	}).fail(function(){
+		if(typeof callback === 'function') callback(false);
+	});
+}
+
+function clearFields(formulario){
+	$('#'+formulario).find("input, textarea, select").val("");
+}
+
+//Fun��es para tratamento de interface;
+function fEdit(frm, id){
+	$.post('ajax/load.php',{'Table' : frm, 'ID': id}, function(data){
+		fJson(data);
+	},"json");
+	
+}
+
+function fSave(tabela, form, callback, execDone ){
+	var url = 'ajax/'+tabela+'_save.php';
+	var serialize = $("#frmCadastro").serialize();
+	if(form != undefined){
+		serialize = $("#"+form).serialize();
+	}
+	$.post(url, serialize, function(data){
+		if(data.Erro != false){
+			swal({title: "Sysconsigna", text: "Erro ao gravar registro\n" + data.Erro, type: "warning"});
+		}else{
+			swal({title: "Sysconsigna", text: "Registro Salvo", timer: 2000, type: "success"});
+			if(typeof callback === 'function'){
+				console.log('Callback e function');
+			}else{
+				clearFields('frmCadastro');
+				makeTable(tabela);
+			}
+		}
+	},"json").done(function(){
+		if(execDone == undefined || execDone == true){
+			$("#btSalvar").val('Salvar');
+			$("#btSalvar").one('click',function(){
+				fSave(tabela);
+			});
+		}
+		if(typeof callback === 'function') callback(true);
+		
+	}).fail(function(jqXHR, textStatus, errorThrown){
+		$("#btSalvar").val('Salvar');
+		$("#btSalvar").one('click',function(){
+			fSave(tabela);
+		});
+		swal({title: "Sysconsigna", text: "Erro ao gravar registro\n" + textStatus, type: "warning"});
+		if(typeof callback === 'function') callback(false);
+	});
+}
+
+function fDelete(tabela, td, id){
+	var Texto = $("#reg_"+id+' td:eq('+td+')').text();
+	swal({title: "Deletar",
+		text: "Remover Registro: "+Texto+'?',   
+		type: "warning",   
+		showCancelButton: true,
+		cancelButtonText: "Nao!",
+		confirmButtonColor: "#DD6B55",   
+		confirmButtonText: "Sim, remover!",   
+		closeOnConfirm: false 
+	}, 
+	function(){
+		$.post('ajax/'+tabela+'_delete.php', {PK: id}, function(data){
+			if(data.Erro != false){
+				swal({title: "Erro ao deletar", text: data.Erro, type: "error"});
+			}else{
+				swal({title: "Registro Removido", text: "O Registro "+Texto+" foi removido com sucesso", type: "success",  timer: 2000 });
+				clearFields('frmCadastro');
+				makeTable(tabela);
+				$("#btSalvar").val('Salvar');
+			}
+		},"json");
+	});
+}
+
+//Fun��o para Encerrar Recorrencia.
+function fCancel(tabela, td, id){
+	var Texto = $("#reg_"+id+' td:eq('+td+')').text();
+	swal({title: "Cancelar Recorrencia",
+		text: "Cancelar Recorrencia: "+Texto+'?',   
+		type: "warning",   
+		showCancelButton: true,
+		cancelButtonText: "Nao!",
+		confirmButtonColor: "#DD6B55",   
+		confirmButtonText: "Sim, cancelar!",   
+		closeOnConfirm: false 
+	}, 
+	function(){
+		$.post('ajax/'+tabela+'_cancel.php', {PK: id}, function(data){
+			if(data.Erro != false){
+				swal({title: "Erro ao cancelar", text: data.Erro, type: "error"});
+			}else{
+				swal({title: "Operacao cancelada", text: "O Registro "+Texto+" foi cancelada com sucesso", type: "success",  timer: 2000 });
+				clearFields('frmCadastro');
+				makeTable(tabela);
+				$("#btSalvar").val('Salvar');
+			}
+		},"json");
+	});
+}
+
+//Carrega/Remove o Loading ...
+function fLoading( status ){
+	if( status == true ){
+		$("#Loading").addClass('open');
+	}else{
+		$("#Loading").removeClass('open');
+	}
+}

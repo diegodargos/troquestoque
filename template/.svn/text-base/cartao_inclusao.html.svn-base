@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Cart&atilde;o de Cr&eacute;dito</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_cartao}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Incluir Cart&atilde;o de Cr&eacute;dito</h2>
+		<form class="int left" id="frmCadastro">
+			<fieldset>
+				<legend class="int">Registro</legend>
+				<label class="int left clearfix">C&oacute;digo:
+					<input class="part right" type="text" readonly="readonly" name="PK_MovimentoCartao" id="PK_MovimentoCartao" data-format="money" data-decimal="0" >
+				</label>
+				<label class="int left clearfix">Banco:
+					<select class="part right" name="FK_Banco" id="FK_Banco"></select>
+				</label>
+				<label class="int left clearfix">Conv&ecirc;nio:
+					<select class="part right" name="FK_Convenio" id="FK_Convenio" onchange="fFormConvenio()"></select>
+				</label>
+			</fieldset>
+			<fieldset id="formConvenio">
+				
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int"></footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mCartao").addClass('active');
+$("#cartao_inclusao").addClass('active');
+
+
+doCargaSelect('FK_Banco','banco',null, true);
+$('#FK_Banco').change(function(){
+	doCargaSelect('FK_Convenio', 'convenio_cartao', $(this).val(),true);	
+});
+
+
+fFormatInput();
+function fFormConvenio(){
+	$.post('ajax/load.php?Date=', {Table: 'OrgaoConvenio', 'ID': $("#FK_Convenio").val()}, function(data){
+		var formulario = '';
+		console.log('FK_Orgao: ' + data.FK_Orgao);
+		if(data.FK_Orgao == "2"){
+			formulario = '<legend class="int">Dados do Contrato:</legend>';
+			formulario+= '<label class="half left clearfix">CPF:<input class="half right" type="text" name="CPF" id="CPF" data-format="custom" data-mask="999.999.999-99" ></label>';
+			formulario+= '<label class="half left clearfix">N&uacute;mero da Matr&iacute;cula: <input class="half right" type="text" name="Matricula" id="Matricula" data-format="money" data-decimal="0" ></label>';
+			formulario+= '<label class="half left clearfix">N&uacute;mero do Contrato: <input class="half right" type="text" name="NumeroContrato" id="NumeroContrato" ></label>';
+			formulario+= '<label class="half left clearfix">Valor do Solicitado: <input class="half right" type="text" name="ValorSolicitado" id="ValorSolicitado" data-format="money" data-decimal="2" ></label>';
+			formulario+= '<input class="right" type="button" value="Salvar" id="btSalvar">';
+		}else{
+			formulario= '';
+		}
+		$("#formConvenio").html(formulario);
+		fFormatInput();
+		$("#btSalvar").one('click',function(){
+			fSave('cartao');
+		});
+	},"json");
+}
+
+
+</script>
+</html>	

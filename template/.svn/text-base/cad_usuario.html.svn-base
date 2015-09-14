@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
+<title>Portal de Averbação</title>
+<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tabless.css">
+<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
+</head>
+<body>
+	<header class="clearfix">
+		<img src="img/logo.png" alt="SYSCONSIGNA">
+		{MainMenu}
+		{sbm_cadastro}
+	</header>
+	<section class="cadastros clearfix">
+		<h2>Cadastros</h2>
+		<form class="third left" id="frmCadastro">
+			<fieldset>
+				<legend class="int">Novo Cadastro</legend>
+				<label class="int left clearfix">C&oacute;digo:
+					<input class="part right" type="text" readonly="readonly" name="PK_User" id="PK_User" data-format="money" data-decimal="0" >
+				</label>
+				<label class="int left clearfix">CPF:
+					<input class="part right" type="text" name="CPF" id="CPF" data-format="custom" data-mask="999.999.999-99" >
+				</label>
+				<label class="int left clearfix">Nome:
+					<input class="part right" type="text" name="Nome" id="Nome" >
+				</label>
+				<label class="int left clearfix">Login:
+					<input class="part right" type="text" name="Login" id="Login" >
+				</label>
+				<label class="int left clearfix">Senha:
+					<input class="part right" type="password" name="Password" id="Password" >
+				</label>
+				<label class="int left clearfix">E-mail:
+					<input class="part right" type="text" name="Email" id="Email" >
+				</label>
+				<div class="int clearfix">
+					<label class="third left clearfix">Tipo:</label>
+					<div class="two right multi">
+						<label class="left"> <input id="Root" name="Root" type="checkbox" value="1">ROOT</label>
+						<label class="left"> <input id="Admin" name="Admin" type="checkbox" value="1">ADMIN</label>
+					</div>
+				</div>
+				<label class="int left clearfix">Banco:
+					<select class="part right" name="FK_Banco" id="FK_Banco" >
+					</select>
+				</label>
+				<div class="int clearfix">
+					<label class="third left clearfix">Acessos:</label>
+					<div class="third right multi">
+						<label class="left"> <input id="RECUPERACA" name="RECUPERACA" type="checkbox" value="1">Recupera&ccedil;&atilde;o</label>
+						<label class="left"> <input id="PORTABILID" name="PORTABILID" type="checkbox" value="1">Venda</label>
+						<label class="left"> <input id="CARTAOCRED" name="CARTAOCRED" type="checkbox" value="1">Cart&atilde;o Cr&eacute;dito</label>
+						<label class="left"> <input id="CONSULTA" name="CONSULTA" type="checkbox" value="1">Consulta</label>
+						<label class="left"> <input id="CADASTRO" name="CADASTRO" type="checkbox" value="1">Cadastro</label>
+					</div>
+				</div>
+				<input class="right" type="button" value="Salvar" id="btSalvar">
+			</fieldset>
+		</form>
+		<form class="two right">
+			<fieldset>
+				<legend class="int">Lista de Usu&aacute;rios</legend>
+				<table class="tabelas" id="tblCadastro">
+					<thead>
+						<tr>
+							<th>Ac&atilde;o</th>
+							<th>C&oacute;digo</th>
+							<th>CPF</th>
+							<th>Nome</th>
+							<th>Login</th>
+							<th>E-mail</th>
+							<th>Root</th>
+							<th>Admin</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</fieldset>
+		</form>
+	</section>
+	<footer class="int">
+		
+	</footer>
+</body>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/sweet-alert.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script type="text/javascript" src="js/formulario.js"></script>
+<script type="text/javascript">
+$("#mCad").addClass('active');
+$("#cad_usuario").addClass('active');
+
+doCargaSelect('FK_Banco','banco', null, true);
+
+makeTable('usuario');
+fFormatInput();
+
+$("#btSalvar").one('click',function(){
+	fSave('usuario');
+});
+</script>
+</html>
