@@ -1,34 +1,813 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0028)http://www.toqueetroque.com/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="pt-br" xml:lang="pt-br">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no; maximum-scale=1.0;">
 <title>troquestoque</title>
-<link href="imgs/gs.ico" rel="icon" type="image/x-icon" />
-<link rel="stylesheet" type="text/css" href="css/tabless.css">
-<link rel="stylesheet" type="text/css" href="css/sweet-alert.css">
-<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.16.custom.css">
+<!--<base href="http://www.troqueestoque.com.br/">--><base href=".">
+
+							
+<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+<link href="css/cloud-zoom.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/slideshow.css" media="screen">
+<script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<link rel="stylesheet" type="text/css" href="js/jquery-ui-1.8.16.custom.css">
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="js/jquery.fancybox-1.3.4.css" media="screen">
+<link href="css/css" rel="stylesheet" type="text/css">
+<link href="css/css(1)" rel="stylesheet" type="text/css">
+<!--[if IE]>
+<script type="text/javascript" src="catalog/view/javascript/jquery/fancybox/jquery.fancybox-1.3.4-iefix.js"></script>
+<![endif]-->
+<!--[if lt IE 8]><div style='clear:both;height:59px;padding:0 15px 0 15px;position:relative;z-index:10000;text-align:center;'><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a></div><![endif]-->
+<script type="text/javascript" src="js/tabs.js"></script>
+<script type="text/javascript" src="js/easyTooltip.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/jQuery.equalHeights.js"></script>
+<script type="text/JavaScript" src="js/cloud-zoom.1.0.2.js"></script>
+<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+<script type="text/javascript" src="js/jscript_zjquery.anythingslider.js"></script>
+<script type="text/javascript" src="js/superfish.js"></script>
+
+<script type="text/javascript" src="js/jquery.cycle.js"></script>
+<script type="text/javascript" src="js/jquery.nivo.slider.pack.js"></script>
+<!--[if  IE 7]>
+<link rel="stylesheet" type="text/css" href="catalog/view/HDW1/default/stylesheet/ie7.css" />
+<![endif]-->
+<!--[if lt IE 7]>
+<link rel="stylesheet" type="text/css" href="catalog/view/HDW1/default/stylesheet/ie6.css" />
+<script type="text/javascript" src="catalog/view/javascript/DD_belatedPNG_0.0.8a-min.js"></script>
+<script type="text/javascript">
+DD_belatedPNG.fix('#logo img');
+</script>
+<![endif]-->
+
+									<script type="text/javascript" src="js/jquery.maskedinput-1.3.min.js"></script>
+					<script>
+					$(document).ready(function(){
+						$("input[name='data_nascimento']").mask("99/99/9999");
+						$("input[name='ddd']").mask("(99)");
+						$("input[name='postcode']").mask("99999-999");
+						$("#cpf").mask("999.999.999-99");
+						$("#cnpj").mask("99.999.999/9999-99");
+						
+						$("input[name='telephone']").mask("9999-9999?9").bind('change', function(event){
+							var $this = $(this);
+							var phone = $this.val().replace(/\D/g, '');
+							
+							if(phone.length > 8){
+								$this.mask("99999-999?9");
+							}else{
+								$this.mask("9999-9999?9");
+							}
+						}).trigger('change');
+						
+						$("input[name='fax']").mask("(99) 9999-9999?9").bind('change', function(event){
+							var $this = $(this);
+							var phone = $this.val().replace(/\D/g, '');
+							
+							if(phone.length > 10){
+								$this.mask("(99) 99999-999?9");
+							}else{
+								$this.mask("(99) 9999-9999?9");
+							}
+						}).trigger('change');
+
+						/* formulario de criacao de conta */
+						if($("#fisica").is(':checked')){
+							$('.pessoa_fisica').show();
+							$('.pessoa_juridica').hide();
+						}
+						if($("#juridica").is(':checked')){
+							$('.pessoa_fisica').hide();
+							$('.pessoa_juridica').show();
+						}
+						$('#juridica').click(function(){
+							//$("#cpf").val("");
+							$('.pessoa_fisica').hide();
+							$('.pessoa_juridica').show();
+						});
+						$('#fisica').click(function(){
+							//$("#cnpj").val("");
+							$('.pessoa_fisica').show();
+							$('.pessoa_juridica').hide();
+						});
+					});
+					</script>
+							
+
+							
 </head>
-<body>
-	<header class="clearfix">
-		<img src="img/logo.png" alt="SYSCONSIGNA">
-		{MainMenu}
-	</header>
-	<section class="clearfix" id = "Topo">
-	{MenuLeft}
-	<form class="part">
-	<fieldset>
+<body class="common-home">
+
+							
+	<div class="main-shining">
+<p id="back-top" style="display: none;"> <a href="http://www.toqueetroque.com/#top"><span></span></a> </p>
+<div class="row-1">
+  <div id="header">
+      <!--   <div id="logo"><a href="http://www.toqueetroque.com/index.php?route=common/home"><img src="img/logo.png" title="Toque e Troque" alt="Toque e Troque"></a></div>
+        -->
+        <div class="cart-position">
+        
+        <div id="cart">
+        		
+              <div class="cart_inner">
+                <div class="heading">
+                	<span class="sc-button"></span>
+                  <div class="right-bg">
+                  	<div class="wrapper">
+                         <a href="http://www.toqueetroque.com/index.php?route=checkout/cart"><h4>Meu Carrinho</h4></a>
+                         <span id="cart_total">0 item(ns) - R$ 0,00</span>
+                     </div>
+                  </div>
+                  </div>
+              </div>
+              
+              <div class="content" style="display: none;"></div>
+              
+           </div>
+        <div class="cart-text"></div>
+   </div>
+    <div class="menu-bg">
+    	<div class="search-back">
+    	<div id="search">
+          <div class="button-search"></div>
+                    <span class="search-bg"> <input type="text" name="filter_name" value="Digite aqui o nome do produto" onclick="this.value = &#39;&#39;;" onkeydown="this.style.color = &#39;#b3b3b3&#39;;"></span>
+                  </div>
+    </div>
+        <!--ul class="main-menu">
+        	<li class="first"><a href="http://www.toqueetroque.com/index.php?route=common/home">Principal</a></li>
+                                      <li class="item-1"><a href="http://www.toqueetroque.com/index.php?route=information/information&amp;information_id=4">Sobre T&amp;T</a></li>
+                          <li class="item-2"><a href="http://www.toqueetroque.com/index.php?route=information/information&amp;information_id=3">Política de Privacidade</a></li>
+                        
+            <li class="item-5"><a href="http://www.toqueetroque.com/index.php?route=product/special">Ofertas Especiais</a></li>
+        	<li class="item-6"><a href="http://www.toqueetroque.com/index.php?route=information/sitemap">Mapa da Loja</a></li>
+        	<li class="item-7"><a href="http://www.toqueetroque.com/index.php?route=information/contact">Contate-nos</a></li>
+        </ul-->
+        <ul class="links">
+        	  <li class="first"><a href="http://www.toqueetroque.com/index.php?route=common/home">Principal</a></li>
+              <li><a href="http://www.toqueetroque.com/index.php?route=account/wishlist" id="wishlist_total">Minha Lista de Desejos (0)</a></li>
+              <li><a href="http://www.toqueetroque.com/index.php?route=account/account">Minha Conta</a></li>
+              <li><a href="http://www.toqueetroque.com/index.php?route=checkout/cart">Meu Carrinho</a></li>
+              <li class="last"><a href="http://www.toqueetroque.com/index.php?route=checkout/checkout">Finalizar Compra</a></li>
+            </ul>
+        <div class="clear"></div>
+    </div>
+    
+    <div id="welcome">
+		
+				
+            Olá, visitante. Acesse sua <a href="http://www.toqueetroque.com/index.php?route=account/login">conta</a> ou <a href="http://www.toqueetroque.com/index.php?route=account/register">cadastre-se</a>.          </div>
 	
-	Pagina Inicial
-	</fieldset>
-</form>
+      </div>
+</div>
+<div id="container">
+<div id="notification"> </div>
+<h1 style="display:none;">Toque e Troque</h1>
+<div class="wrap-content">
+	<div id="column-left">
+    
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".act-cat").toggle(
+		function(){
+			 $(this).next('.level-2-cat').slideToggle("slow"),{
+				duration: 'slow',
+				easing: 'easeOutBounce'
+			}
+		},
+		function(){
+			 $(this).next('.level-2-cat').slideToggle("slow"),{
+				duration: 'slow',
+				easing: 'easeOutBounce'
+			}
+		});
+	//$('.box-category li').last().addClass('last');
+
+});
+</script>
+
+<div class="box category">
+	<div class="box-heading">Departamentos</div>
+	<div class="box-content">
+
+		<div class="box-category">
+			<ul>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=148">FEIRINHA <strong> (27)</strong></a>
+										
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=150">FELIZ ANIVERSÁRIO<strong> (8)</strong></a>
+										
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113">Guitarras<strong> (36)</strong></a>
+										
+											<span class="act-cat"></span>
+						<ul class="level-2-cat">
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113_144">› Semi-acústicas<strong> (8)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113_123">› Strato<strong> (6)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113_125">› Les Paul<strong> (3)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113_126">› Telecaster<strong> (2)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113_127">› SG<strong> (1)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113_128">› Microafinação<strong> (4)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=113_143">› Diversas<strong> (11)</strong></a>
+																	</li>
+													</ul>
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=114">Baixos<strong> (7)</strong></a>
+										
+											<span class="act-cat"></span>
+						<ul class="level-2-cat">
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=114_131">› 4 Cordas<strong> (4)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=114_132">› 5 Cordas<strong> (3)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=114_133">› 6 Cordas<strong> (0)</strong></a>
+																	</li>
+													</ul>
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=115">Violões<strong> (10)</strong></a>
+										
+											<span class="act-cat"></span>
+						<ul class="level-2-cat">
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=115_134">› Acústicos<strong> (5)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=115_135">› Elétricos<strong> (1)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=115_136">› Diversos<strong> (4)</strong></a>
+																	</li>
+													</ul>
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=116">Efeitos<strong> (59)</strong></a>
+										
+											<span class="act-cat"></span>
+						<ul class="level-2-cat">
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=116_129">› Pedais<strong> (48)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=116_130">› Pedaleiras<strong> (11)</strong></a>
+																	</li>
+													</ul>
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117">Bateria<strong> (40)</strong></a>
+										
+											<span class="act-cat"></span>
+						<ul class="level-2-cat">
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117_146">› Ferragens<strong> (8)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117_137">› Kit Completo<strong> (0)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117_138">› Pratos<strong> (15)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117_139">› Caixas<strong> (4)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117_140">› Pedais<strong> (1)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117_141">› Shell Pack<strong> (3)</strong></a>
+																	</li>
+																								<li>
+																
+																			<a href="http://www.toqueetroque.com/index.php?route=product/category&path=117_142">› Percussão<strong> (10)</strong></a>
+																	</li>
+													</ul>
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=118">Teclados<strong> (4)</strong></a>
+										
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=119">Amplificadores<strong> (8)</strong></a>
+										
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=121">Sopros<strong> (1)</strong></a>
+										
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=120">PA' s<strong> (17)</strong></a>
+										
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=122">Acessórios<strong> (20)</strong></a>
+										
+									</li>
+												<li>
+								
+											<a href="http://www.toqueetroque.com/index.php?route=product/category&path=145">V I N T A G E<strong> (3)</strong></a>
+										
+									</li>
+						</ul>
+		</div>
+		
 	</div>
-	</section>
-	<footer class="int">
-	</footer>
-</body>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui.js"></script>
-<script type="text/javascript" src="js/sweet-alert.js"></script>
-<script type="text/javascript" src="js/global.js"></script>
-<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+</div>
+
+    
+<div id="banner0" class="banner">
+						<div><a href="https://www.facebook.com/pages/Toque-e-troque/328547283919556"><img src="img/Facebook_Logo[1]-190x170.png" alt="Facebook .Curtir!" title="Facebook .Curtir!"></a></div>
+								<div><a href="http://instagram.com/marcelodrums"><img src="img/instagram-1[1]-190x170.jpeg" alt="lateral2" title="lateral2"></a></div>
+			</div>
+<script type="text/javascript">
+<!--
+function cycleBanner0() {
+	$('#banner0').cycle({
+		before: function(current, next) {
+			var newHeight = $(next).outerHeight();
+			var newWidth = $(next).outerWidth();
+			$(next).parent().height(newHeight).width(newWidth);
+		}
+	});
+}
+setTimeout(cycleBanner0, 2000);
+//-->
+</script>
+
+    
+<div id="banner1" class="banner" style="position: relative; height: 190px; width: 190px;">
+						<div style="position: absolute; top: 0px; left: 0px; display: block; z-index: 2; opacity: 1;"><img src="img/download-190x190-190x275.jpg" alt="lateral3" title="lateral3"></div>
+								<div style="position: absolute; top: 0px; left: 0px; z-index: 1; opacity: 0; display: none;"><img src="img/banner-correios-190x170-190x275.png" alt="lateral1" title="lateral1"></div>
+			</div>
+<script type="text/javascript">
+<!--
+function cycleBanner1() {
+	$('#banner1').cycle({
+		before: function(current, next) {
+			var newHeight = $(next).outerHeight();
+			var newWidth = $(next).outerWidth();
+			$(next).parent().height(newHeight).width(newWidth);
+		}
+	});
+}
+setTimeout(cycleBanner1, 2000);
+//-->
+</script>
+
+    
+<script type="text/javascript">
+function ajustaAlturaProdutosSpec(){
+	if($(".maxheight-spec").length){
+		$(".maxheight-spec").height('auto').equalHeights();
+	}
+}
+
+//$(window).load(function(){ ajustaAlturaProdutosSpec(); });
+</script>
+
+<div class="wrapper">
+	<div class="box specials">
+	
+		<div class="box-heading special-heading">Ofertas Especiais</div>
+		<div class="box-content">
+		
+			<div class="box-product">
+									<div class="special-container1 maxheight-spec">
+													<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=231"><img src="img/Cavaquinho Ivan Luthier (1)-80x80.jpg" alt="Cavaquinho Ivan Luthier "></a></div>
+												
+						<div class="spec-descr">
+							<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=231">Cavaquinho Ivan Luthier </a></div>
+							
+														
+															<div class="price">
+																			<span class="price-old">R$ 1.090,00</span><span class="price-new">R$ 625,00</span>
+																	</div>
+														
+														
+							
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=231" class="button"><span>Detalhes</span></a></div>
+			
+						</div>
+					</div>
+							</div>
+			
+		</div>
+	</div>
+</div>
+
+    
+<script type="text/javascript">
+function ajustaAlturaProdutosBest(){
+	if($(".maxheight-best").length){
+		$(".maxheight-best").height('auto').equalHeights();
+	}
+}
+
+//$(window).load(function(){ ajustaAlturaProdutosBest(); });
+</script>
+
+<div class="wrapper">
+	<div class="box bestsellers">
+	
+		<div class="box-heading">Mais Vendidos</div>
+		<div class="box-content">
+  	
+			<div class="box-product-2">
+				<ul>
+									<li class="maxheight-best">
+													<div class="image"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1748"><img src="img/20150724_134648-80x80.jpg" alt="Giannini Stratossonic"></a></div>
+												
+						<div class="extra-wrap">
+							<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1748">Giannini Stratossonic</a></div>
+							
+															<div class="price">
+																			R$ 549,00																	</div>
+														
+														
+							
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1748" class="button"><span>Detalhes</span></a></div>
+			
+						</div>
+					</li>
+								</ul>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+  </div>
+ 
+		<div id="content"><div class="center-col">
+	
+<div class="slideshow">
+	<div id="slideshow0" class="nivoSlider" style="width: 750px; height: 332px; position: relative; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/11348625_704778532985006_812050893_o_20150621000253056_20150621002101283-750x332.jpg) no-repeat;">
+									<a href="http://www.toqueetroque.com/index.php?route=product/category&path=150" title="Feliz aniversário!" class="nivo-imageLink" style="display: none;"><img src="./Toque e Troque_files/11348625_704778532985006_812050893_o_20150621000253056_20150621002101283-750x332.jpg" title="Feliz aniversário!" alt="Feliz aniversário!" style="display: none;"></a>
+												<img src="./Toque e Troque_files/20150616_021130_20150624144359067-750x332.jpg" alt="Martin &amp; Co." style="display: none;">
+						<div class="nivo-caption" style="opacity: 0; display: none;"><p>Feliz aniversário!</p></div><div class="nivo-directionNav" style="display: none;"><a class="nivo-prevNav">Prev</a><a class="nivo-nextNav">Next</a></div><div class="nivo-slice" style="left: 0px; width: 750px; height: 100%; opacity: 1; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) 0px 0% no-repeat;"></div><div class="nivo-slice" style="left: 38px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -38px 0% no-repeat;"></div><div class="nivo-slice" style="left: 76px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -76px 0% no-repeat;"></div><div class="nivo-slice" style="left: 114px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -114px 0% no-repeat;"></div><div class="nivo-slice" style="left: 152px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -152px 0% no-repeat;"></div><div class="nivo-slice" style="left: 190px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -190px 0% no-repeat;"></div><div class="nivo-slice" style="left: 228px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -228px 0% no-repeat;"></div><div class="nivo-slice" style="left: 266px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -266px 0% no-repeat;"></div><div class="nivo-slice" style="left: 304px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -304px 0% no-repeat;"></div><div class="nivo-slice" style="left: 342px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -342px 0% no-repeat;"></div><div class="nivo-slice" style="left: 380px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -380px 0% no-repeat;"></div><div class="nivo-slice" style="left: 418px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -418px 0% no-repeat;"></div><div class="nivo-slice" style="left: 456px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -456px 0% no-repeat;"></div><div class="nivo-slice" style="left: 494px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -494px 0% no-repeat;"></div><div class="nivo-slice" style="left: 532px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -532px 0% no-repeat;"></div><div class="nivo-slice" style="left: 570px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -570px 0% no-repeat;"></div><div class="nivo-slice" style="left: 608px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -608px 0% no-repeat;"></div><div class="nivo-slice" style="left: 646px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -646px 0% no-repeat;"></div><div class="nivo-slice" style="left: 684px; width: 38px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -684px 0% no-repeat;"></div><div class="nivo-slice" style="left: 722px; width: 28px; height: 0px; opacity: 0; background: url(http://www.toqueetroque.com/image/cache/data/banners/Slider/20150616_021130_20150624144359067-750x332.jpg) -722px 0% no-repeat;"></div></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('#slideshow0').nivoSlider({
+		effect: 'fade', // random
+		slices: 20,
+		boxCols: 8,
+		boxRows: 4,
+		animSpeed: 500,
+		pauseTime: 5000,
+		pauseOnHover: true,
+		manualAdvance: false,
+		directionNav: true,
+		controlNav: false,
+		controlNavThumbs: false,
+		controlNavThumbsFromRel: false,
+		controlNavThumbsSearch: '.jpg',
+		controlNavThumbsReplace: '_thumb.jpg',
+		startSlide: 0,
+		captionOpacity: 0,
+		prevText: 'Prev',
+		nextText: 'Next'
+	});
+
+	/*$('.nivo-controlNav a').eq(0).addClass('slide1');
+	$('.nivo-controlNav a').eq(1).addClass('slide2');
+	$('.nivo-controlNav a').eq(2).addClass('slide3');
+	$('.nivo-controlNav a').eq(3).addClass('slide4');
+	$('.nivo-controlNav a').eq(4).addClass('slide5');
+	$('.nivo-controlNav a').eq(5).addClass('slide6');*/
+
+});
+</script>
+
+	
+<div id="banner3" class="banner" style="position: relative; height: 126px; width: 250px;">
+						<div style="position: absolute; top: 0px; left: 0px; display: block; z-index: 2; opacity: 1;"><a href="http://www.toqueetroque.com/index.php?route=product/product&path=113_123&product_id=1267"><img src="./Toque e Troque_files/20141230_164054-250x126.jpg" alt="Fender Stratocaster Califórnia USA " title="Fender Stratocaster Califórnia USA "></a></div>
+								<div style="position: absolute; top: 0px; left: 0px; z-index: 1; opacity: 0; display: none;"><a href="http://www.toqueetroque.com/index.php?route=product/product&path=115&product_id=563"><img src="./Toque e Troque_files/IMG_20140409_155657-250x126.jpg" alt="Sekova" title="Sekova"></a></div>
+			</div>
+<script type="text/javascript">
+<!--
+function cycleBanner3() {
+	$('#banner3').cycle({
+		before: function(current, next) {
+			var newHeight = $(next).outerHeight();
+			var newWidth = $(next).outerWidth();
+			$(next).parent().height(newHeight).width(newWidth);
+		}
+	});
+}
+setTimeout(cycleBanner3, 2000);
+//-->
+</script>
+
+	
+<div id="banner4" class="banner" style="position: relative; height: 126px; width: 250px;">
+						<div style="position: absolute; top: 0px; left: 0px; display: block; z-index: 2; opacity: 1;"><a href="http://www.toqueetroque.com/index.php?route=product/product&path=113_144&product_id=665"><img src="./Toque e Troque_files/20140517_091031-250x126.jpg" alt="Epiphone Dot 335 Korea com ducan 59" title="Epiphone Dot 335 Korea com ducan 59"></a></div>
+								<div style="position: absolute; top: 0px; left: 0px; z-index: 1; opacity: 0; display: none;"><a href="http://www.toqueetroque.com/index.php?route=product/product&path=116_130&product_id=1136"><img src="./Toque e Troque_files/20141113_170008-250x126.jpg" alt="Roland GR-20" title="Roland GR-20"></a></div>
+			</div>
+<script type="text/javascript">
+<!--
+function cycleBanner4() {
+	$('#banner4').cycle({
+		before: function(current, next) {
+			var newHeight = $(next).outerHeight();
+			var newWidth = $(next).outerWidth();
+			$(next).parent().height(newHeight).width(newWidth);
+		}
+	});
+}
+setTimeout(cycleBanner4, 2000);
+//-->
+</script>
+
+	
+<div id="banner5" class="banner" style="position: relative; height: 126px; width: 250px;">
+						<div style="position: absolute; top: 0px; left: 0px; display: block; z-index: 2; opacity: 1;"><a href="http://www.toqueetroque.com/index.php?route=product/product&path=113_125&product_id=927"><img src="./Toque e Troque_files/20140821_141716-250x126.jpg" alt="Epiphone Nighthawk Custom Reissue" title="Epiphone Nighthawk Custom Reissue"></a></div>
+								<div style="position: absolute; top: 0px; left: 0px; z-index: 1; opacity: 0; display: none;"><a href="http://www.toqueetroque.com/index.php?route=product/product&path=116_129&product_id=1066"><img src="./Toque e Troque_files/20141016_160008-250x126.jpg" alt="Mono sempre branco" title="Mono sempre branco"></a></div>
+			</div>
+<script type="text/javascript">
+<!--
+function cycleBanner5() {
+	$('#banner5').cycle({
+		before: function(current, next) {
+			var newHeight = $(next).outerHeight();
+			var newWidth = $(next).outerWidth();
+			$(next).parent().height(newHeight).width(newWidth);
+		}
+	});
+}
+setTimeout(cycleBanner5, 2000);
+//-->
+</script>
+
+	
+<script type="text/javascript">
+function ajustaAlturaProdutos(){
+	if($(".maxheight").length){
+		$(".maxheight").height('auto').equalHeights();
+	}
+}
+
+$(window).load(function(){ ajustaAlturaProdutos(); });
+</script>
+
+<div class="wrapper">
+	<div class="box new-products">
+		
+		<div class="box-heading">Novidades</div>
+		<div class="box-content">
+			<div class="box-shining">
+
+				<div class="box-product">
+					<ul>
+																	<li class="first-in-line maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1806"><img src="./Toque e Troque_files/20150909_162639-140x140.jpg" alt="Gibson Robot Flying V"></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1806">Gibson Robot Flying V</a></div>
+								
+																
+																	<div class="price">
+																					R$ 6.999,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1806" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+																	<li class="maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1805"><img src="./Toque e Troque_files/AZUL3-140x140.jpg" alt="Golden GYSA110MBL "></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1805">Golden GYSA110MBL </a></div>
+								
+																
+																	<div class="price">
+																					R$ 599,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1805" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+																	<li class="maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1804"><img src="./Toque e Troque_files/20150601_152930-140x140.jpg" alt="Lexicon MPX-500"></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1804">Lexicon MPX-500</a></div>
+								
+																
+																	<div class="price">
+																					R$ 779,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1804" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+																	<li class="last-in-line maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1802"><img src="./Toque e Troque_files/20150829_115853-140x140.jpg" alt="Marshall Jackhammer JH-1"></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1802">Marshall Jackhammer JH-1</a></div>
+								
+																
+																	<div class="price">
+																					R$ 319,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1802" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+																	<li class="first-in-line maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1801"><img src="./Toque e Troque_files/20150828_121151-140x140.jpg" alt="Greatone Digital Delay "></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1801">Greatone Digital Delay </a></div>
+								
+																
+																	<div class="price">
+																					R$ 99,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1801" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+																	<li class="maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1800"><img src="./Toque e Troque_files/20150828_121324-140x140.jpg" alt="Onner Cryin Wah Wah"></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1800">Onner Cryin Wah Wah</a></div>
+								
+																
+																	<div class="price">
+																					R$ 149,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1800" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+																	<li class="maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1799"><img src="./Toque e Troque_files/20150826_151935-140x140.jpg" alt="Banjo Luthier Zacarias Com Bag"></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1799">Banjo Luthier Zacarias Com Bag</a></div>
+								
+																
+																	<div class="price">
+																					R$ 1.099,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1799" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+																	<li class="last-in-line maxheight" style="height: 237px;">
+							<div class="padd-both">
+																	<div class="image2"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1798"><img src="./Toque e Troque_files/20150826_151621-140x140.jpg" alt="Tunner GT-V8"></a></div>
+																
+								<div class="name"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1798">Tunner GT-V8</a></div>
+								
+																
+																	<div class="price">
+																					R$ 119,00																			</div>
+																
+																
+								
+				<div class="cart"><a href="http://www.toqueetroque.com/index.php?route=product/product&product_id=1798" class="button"><span>Detalhes</span></a></div>
+			
+							</div>
+						</li>
+										</ul>
+				</div>
+
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+</div></div>
+</div>
+<div class="clear"></div>
+
+<div class="footer-wrap">
+<div id="footer">
+
+	<div class="wrapper">
+		<div class="column col-1">
+			<h3>Informações</h3>
+			<ul>
+								<li><a href="http://www.toqueetroque.com/index.php?route=information/information&information_id=4" style="padding-left: 16px;">Sobre T&amp;T</a></li>
+								<li><a href="http://www.toqueetroque.com/index.php?route=information/information&information_id=3" style="padding-left: 16px;">Política de Privacidade</a></li>
+							</ul>
+		</div>
+		<div class="column col-2">
+			<h3>Atendimento</h3>
+			<ul>
+				<li><a href="http://www.toqueetroque.com/index.php?route=information/contact" style="padding-left: 16px;">Contate-nos</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=account/return/insert" style="padding-left: 16px;">Devoluções</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=information/sitemap" style="padding-left: 16px;">Mapa da Loja</a></li>
+			</ul>
+		</div>
+		<div class="column col-3">
+			<h3>Extras</h3>
+			<ul>
+				<li><a href="http://www.toqueetroque.com/index.php?route=product/special" style="padding-left: 16px;">Ofertas Especiais</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=checkout/voucher" style="padding-left: 16px;">Comprar Vale Presente</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=product/manufacturer" style="padding-left: 16px;">Lista de Fabricantes</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=affiliate/account" style="padding-left: 16px;">Programa de Afiliados</a></li>
+			</ul>
+		</div>
+		<div class="column col-4">
+			<h3>Minha Conta</h3>
+			<ul>
+				<li><a href="http://www.toqueetroque.com/index.php?route=account/account" style="padding-left: 16px;">Minha Conta</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=account/order" style="padding-left: 16px;">Histórico de Pedidos</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=account/wishlist" style="padding-left: 16px;">Minha Lista de Desejos</a></li>
+				<li><a href="http://www.toqueetroque.com/index.php?route=account/newsletter" style="padding-left: 16px;">Meu Informativo</a></li>
+			</ul>
+		</div>
+		<div class="socials">
+			<h4>Siga-nos:</h4>
+			<ul class="list-services">
+				<li class="first"><a class="tooltips" title="Twitter" href="http://twitter.com/" target="_blank"></a></li>
+				<li class="second"><a class="tooltips" title="Facebook" href="http://facebook.com/" target="_blank"></a></li>
+				<li class="third"><a class="tooltips" title="Google Plus" href="http://plus.google.com/" target="_blank"></a></li>
+				<li class="four"><a class="tooltips" title="Delicious" href="http://delicious.com/" target="_blank"></a></li>
+				<li class="five"><a class="tooltips" title="Youtube" href="http://youtube.com/" target="_blank"></a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="powered"><div style="float:right; text-align:right; line-height:1.5;">Powered by <a href="http://www.opencart.com/" target="_blank">OpenCart</a><br>Personalizado por <a href="http://www.hoteldaweb.com.br/loja-virtual/" target="_blank">Hotel da WEB</a></div>Toque e Troque © 2015</div>
+	
+</div>
+</div>
+
+
+							
+</div></div><div id="fancybox-tmp"></div><div id="fancybox-loading"><div></div></div><div id="fancybox-overlay"></div><div id="fancybox-wrap"><div id="fancybox-outer"><div class="fancybox-bg" id="fancybox-bg-n"></div><div class="fancybox-bg" id="fancybox-bg-ne"></div><div class="fancybox-bg" id="fancybox-bg-e"></div><div class="fancybox-bg" id="fancybox-bg-se"></div><div class="fancybox-bg" id="fancybox-bg-s"></div><div class="fancybox-bg" id="fancybox-bg-sw"></div><div class="fancybox-bg" id="fancybox-bg-w"></div><div class="fancybox-bg" id="fancybox-bg-nw"></div><div id="fancybox-content"></div><a id="fancybox-close"></a><div id="fancybox-title"></div><a href="javascript:;" id="fancybox-left"><span class="fancy-ico" id="fancybox-left-ico"></span></a><a href="javascript:;" id="fancybox-right"><span class="fancy-ico" id="fancybox-right-ico"></span></a></div></div></body></html>
